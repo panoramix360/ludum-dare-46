@@ -6,8 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class GameController : Singleton<GameController>
 {
-   private void Start() 
-   {
-     Debug.Log("Started");
-   } 
+  public int currentDay = 1;
+
+  private void Start()
+  {
+    Debug.Log("Started");
+  }
+
+  public void NextDay()
+  {
+    currentDay += 1;
+  }
 }
