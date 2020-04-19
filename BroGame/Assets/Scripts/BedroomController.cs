@@ -9,19 +9,48 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 {
   [SerializeField] private Button goBtn;
   [SerializeField] private Button calendarBtn;
-  [SerializeField] private Button slotBtn0;
-  [SerializeField] private Button slotBtn1;
-  [SerializeField] private Button slotBtn2;
-  [SerializeField] private Button slotBtn3;
+  [SerializeField] private GameObject slotPrefab;
+  [SerializeField] private GameObject statsPrefab;
+  [SerializeField] private GameObject slotPanel;
+  [SerializeField] private GameObject statsPanel;
+
   private List<string> slots = new List<string>();
 
   private const int MAX_SLOTS = 4;
 
-  private List<Button> slotBtns;
+  private List<GameObject> slotBtns = new List<GameObject>();
+  private List<GameObject> statBars = new List<GameObject>();
+
+  private GameController GC { get { return GameController.Instance; } }
 
   private void Awake()
   {
-    slotBtns = new List<Button> { slotBtn0, slotBtn1, slotBtn2, slotBtn3 };
+    // setup slots
+    for (int i = 0; i < MAX_SLOTS; i++)
+    {
+      var slot = Instantiate(slotPrefab, new Vector2(50 + i * 60, 0), Quaternion.identity);
+      slotBtns.Add(slot);
+
+      var slotBtn = slot.GetComponent<Button>();
+      int tempIdx = i;
+      slotBtn.onClick.AddListener(() => OnClickSlot(tempIdx));
+
+      slot.transform.SetParent(slotPanel.transform, false);
+    }
+
+    // setup stats
+    var attributes = GC.GetVisibleAttributes();
+    for (int i = 0; i < attributes.Count; i++)
+    {
+      var attr = attributes[i];
+      var statBar = Instantiate(statsPrefab, new Vector2(9 + i * 26, 0), Quaternion.identity);
+      statBar.GetComponent<Image>().color = attr.color;
+      statBars.Add(statBar);
+
+      statBar.transform.SetParent(statsPanel.transform, false);
+    }
+
+    UpdateAttrs();
   }
 
   private void UpdateSlots()
@@ -37,6 +66,15 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
   }
 
+  private void UpdateAttrs()
+  {
+    List<PlayerAttribute> attributes = GC.GetVisibleAttributes();
+    for (int i = 0; i < attributes.Count; i++)
+    {
+      var attr = attributes[i];
+      statBars[i].GetComponent<Image>().fillAmount = (float)attr.value / attr.maxValue;
+    }
+  }
 
   public void OnClickGoBtn()
   {
@@ -46,12 +84,13 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       return;
     }
 
-    GameController.Instance.NextDay();
-    calendarBtn.GetComponentInChildren<Text>().text = GameController.Instance.currentDay.ToString();
+    GC.ExecuteSchedule(slots);
+
+    calendarBtn.GetComponentInChildren<Text>().text = GC.currentDay.ToString();
     slots.Clear();
     UpdateSlots();
 
-    // TODO: go to the next scene
+    UpdateAttrs();
   }
 
   public void OnClickPlanningAction(string actionName)
