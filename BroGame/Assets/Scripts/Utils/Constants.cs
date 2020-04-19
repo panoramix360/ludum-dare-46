@@ -7,11 +7,11 @@ static class Constants
   #endregion
 
   #region Attributes
-  public const string AttributeCash = "cash";
-  public const string AttributeNutrition = "nutrition";
-  public const string AttributeWillpower = "willpower";
-  public const string AttributeManliness = "manliness";
-  public const string AttributeFanbase = "fanbase";
-  public const string AttributeBrometer = "brometer";
+  public const string CashAttribute = "cash";
+  public const string NutritionAttribute = "nutrition";
+  public const string WillpowerAttribute = "willpower";
+  public const string ManlinessAttribute = "manliness";
+  public const string FanbaseAttribute = "fanbase";
+  public const string BrometerAttribute = "brometer";
   #endregion
 }
