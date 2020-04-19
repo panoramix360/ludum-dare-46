@@ -13,6 +13,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   [SerializeField] private GameObject statsPrefab;
   [SerializeField] private GameObject slotPanel;
   [SerializeField] private GameObject statsPanel;
+  [SerializeField] private GameObject brometer;
 
   private List<string> slots = new List<string>();
 
