@@ -7,17 +7,29 @@ using TMPro;
 public class BoxeGameController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI broCoachTxt;
+    [SerializeField] private GameObject boxeBag;
+    private Animator boxeBagAnimator;
+
+    [SerializeField] private int startLimitToChangeOption = 10;
+    [SerializeField] private int endLimitToChangeOption = 30;
+
+    [Header("Don't change this fields!")]
+    [SerializeField] private int randomLimitToChangeOption;
+
+    [SerializeField] private int qKeyCount = 0;
+    [SerializeField] private int eKeyCount = 0;
+
+    [SerializeField] private int broCoachRandomOption;
+
+    [SerializeField] private State currentState;
+
+    private float strenghPush = 100f;
 
     private string[] broCoachOptions =  {
         "LEFT BRO!",
         "Keep up Bro!",
         "RIGHT BRO!"
     };
-
-    private int qKeyCount = 0;
-    private int eKeyCount = 0;
-
-    private int broCoachRandomOption;
 
     private void Awake()
     {
@@ -31,19 +43,29 @@ public class BoxeGameController : MonoBehaviour
             broCoachRandomOption = Random.Range(0, broCoachOptions.Length);
         } while (broCoachRandomOption == 1);
 
+        SetStateBasedOnCoachOption(broCoachRandomOption);
+
         StartCoroutine(StartCoaching());
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            OnQKeyPressed();
-        }
+        bool qKeyPressed = Input.GetKeyDown(KeyCode.Q);
+        bool eKeyPressed = Input.GetKeyDown(KeyCode.E);
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (qKeyPressed || eKeyPressed)
         {
-            OnEKeyPressed();
+            if (qKeyPressed)
+            {
+                OnQKeyPressed();
+                boxeBag.GetComponent<Rigidbody2D>().AddForce(new Vector2(strenghPush, 0));
+            }
+
+            if (eKeyPressed)
+            {
+                OnEKeyPressed();
+                boxeBag.GetComponent<Rigidbody2D>().AddForce(new Vector2(strenghPush, 0));
+            }
         }
     }
 
@@ -54,22 +76,83 @@ public class BoxeGameController : MonoBehaviour
         broCoachTxt.gameObject.SetActive(true);
 
         UpdateBroCoachText(broCoachOptions[broCoachRandomOption]);
+
+        GenerateLimitToChange();
+    }
+
+    private void SetStateBasedOnCoachOption(int broOption)
+    {
+        switch (broOption)
+        {
+            case 0:
+                currentState = State.LEFT;
+                break;
+            case 2:
+                currentState = State.RIGHT;
+                break;
+            default:
+                break;
+        }
     }
 
     private void OnQKeyPressed()
     {
-        Debug.Log("OnQKeyPressed");
-        qKeyCount++;
+        if (currentState == State.LEFT)
+        {
+            qKeyCount++;
+
+            CheckIfLimitIsReached(qKeyCount);
+        }
     }
 
     private void OnEKeyPressed()
     {
-        Debug.Log("OnEKeyPressed");
-        eKeyCount++;
+        if (currentState == State.RIGHT)
+        {
+            eKeyCount++;
+
+            CheckIfLimitIsReached(eKeyCount);
+        }
+    }
+
+    private void GenerateLimitToChange()
+    {
+        randomLimitToChangeOption = Random.Range(startLimitToChangeOption, endLimitToChangeOption);
+    }
+
+    private void CheckIfLimitIsReached(int keyCount)
+    {
+        if (keyCount >= randomLimitToChangeOption)
+        {
+            GenerateNextCoachOption();
+        }
+    }
+
+    private void GenerateNextCoachOption()
+    {
+        int lastCoachOption = broCoachRandomOption;
+        do
+        {
+            broCoachRandomOption = Random.Range(0, broCoachOptions.Length);
+        } while (lastCoachOption == broCoachRandomOption);
+
+        SetStateBasedOnCoachOption(broCoachRandomOption);
+
+        UpdateBroCoachText(broCoachOptions[broCoachRandomOption]);
+
+        GenerateLimitToChange();
+
+        qKeyCount = 0;
+        eKeyCount = 0;
     }
 
     private void UpdateBroCoachText(string text)
     {
         broCoachTxt.text = text;
+    }
+
+    private enum State
+    {
+        LEFT, RIGHT
     }
 }
