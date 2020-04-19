@@ -9,21 +9,29 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 {
   [SerializeField] private Button goBtn;
   [SerializeField] private Button calendarBtn;
-  [SerializeField] private Button slotBtn0;
-  [SerializeField] private Button slotBtn1;
-  [SerializeField] private Button slotBtn2;
-  [SerializeField] private Button slotBtn3;
+  [SerializeField] private GameObject slotPrefab;
+  [SerializeField] private GameObject slotPanel;
   [SerializeField] private Image cashBar;
 
   private List<string> slots = new List<string>();
 
   private const int MAX_SLOTS = 4;
 
-  private List<Button> slotBtns;
+  private List<GameObject> slotBtns;
 
   private void Awake()
   {
-    slotBtns = new List<Button> { slotBtn0, slotBtn1, slotBtn2, slotBtn3 };
+    slotBtns = new List<GameObject>();
+    for (int i = 0; i < MAX_SLOTS; i++)
+    {
+      var slot = Instantiate(slotPrefab, new Vector2(50 + i * 60, 0), Quaternion.identity);
+      Button slotBtn = slot.GetComponent<Button>();
+      int tempIdx = i;
+      slotBtn.onClick.AddListener(() => OnClickSlot(tempIdx));
+      slotBtns.Add(slot);
+
+      slot.transform.SetParent(slotPanel.transform, false);
+    }
     UpdateAttrs();
   }
 
