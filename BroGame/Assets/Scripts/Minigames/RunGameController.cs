@@ -102,6 +102,8 @@ public class RunGameController : MonoBehaviour
 
         GenerateContestDirections();
 
+        ShowContestDirections(runningContestDirections);
+
         isContestRunning = true;
     }
 
@@ -110,13 +112,11 @@ public class RunGameController : MonoBehaviour
         runningContestDirections.Clear();
         Contest runningContest = contests[currentContest];
 
-        for(int i = 0; i < runningContest.difficulty; i++)
+        for (int i = 0; i < runningContest.difficulty; i++)
         {
             int randomDirection = Random.Range(0, possibleDirections.Length);
             runningContestDirections.Add(possibleDirections[randomDirection]);
         }
-
-        ShowContestDirections(runningContestDirections);
     }
 
     private void ShowContestDirections(List<DirectionEnum> directionsToShow)
