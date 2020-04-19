@@ -7,6 +7,7 @@ public class RunGameController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject broCoachDirectionsContainer;
     [SerializeField] private GameObject playerCommandsContainer;
+    [SerializeField] private Countdown countdown;
 
     [SerializeField] private Sprite arrowUp;
     [SerializeField] private Sprite arrowDown;
@@ -17,7 +18,6 @@ public class RunGameController : MonoBehaviour
 
     [Header("Contest details")]
     [SerializeField] private List<Contest> contests;
-
 
     [Header("Dont change this fields!")]
     [SerializeField] private int currentContest;
@@ -86,7 +86,6 @@ public class RunGameController : MonoBehaviour
 
                 if (CheckIfKeyPressedIsWrong() || CheckIfContestEnded())
                 {
-                    isContestRunning = false;
                     NextContest();
                 }
             }
@@ -103,6 +102,10 @@ public class RunGameController : MonoBehaviour
         GenerateContestDirections();
 
         ShowContestDirections(runningContestDirections);
+
+        yield return new WaitForSeconds(1f);
+
+        BeginCountdown();
 
         isContestRunning = true;
     }
@@ -159,8 +162,11 @@ public class RunGameController : MonoBehaviour
         return runningContestDirections.Count == directionsPressedCount;
     }
 
-    private void NextContest()
+    public void NextContest()
     {
+        isContestRunning = false;
+        countdown.gameObject.SetActive(false);
+
         if (currentContest == contests.Count - 1)
         {
             Debug.Log("Minigame ended");
@@ -179,6 +185,12 @@ public class RunGameController : MonoBehaviour
         foreach(Transform child in gameObject.transform) {
             Destroy(child.gameObject);
         }
+    }
+
+    private void BeginCountdown()
+    {
+        countdown.SetCountdown(10);
+        countdown.gameObject.SetActive(true);
     }
 
     private enum DirectionEnum
