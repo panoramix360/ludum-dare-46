@@ -13,6 +13,8 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   [SerializeField] private Button slotBtn1;
   [SerializeField] private Button slotBtn2;
   [SerializeField] private Button slotBtn3;
+  [SerializeField] private Image cashBar;
+
   private List<string> slots = new List<string>();
 
   private const int MAX_SLOTS = 4;
@@ -22,6 +24,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   private void Awake()
   {
     slotBtns = new List<Button> { slotBtn0, slotBtn1, slotBtn2, slotBtn3 };
+    UpdateAttrs();
   }
 
   private void UpdateSlots()
@@ -37,6 +40,11 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
   }
 
+  private void UpdateAttrs()
+  {
+    var cashAttr = GameController.Instance.attributes[Constants.AttributeCash] as PlayerAttribute;
+    cashBar.fillAmount = (float)cashAttr.value / cashAttr.maxValue;
+  }
 
   public void OnClickGoBtn()
   {
@@ -52,6 +60,8 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     UpdateSlots();
 
     // TODO: go to the next scene
+
+    UpdateAttrs();
   }
 
   public void OnClickPlanningAction(string actionName)
