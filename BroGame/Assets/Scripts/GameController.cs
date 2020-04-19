@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class GameController : Singleton<GameController>
   public OrderedDictionary attributes = new OrderedDictionary();
 
   public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 100);
+
+  private Dictionary<string, PlayerAttrReward[]> rewards = new Dictionary<string, PlayerAttrReward[]>();
 
   private void Awake()
   {
@@ -32,10 +35,29 @@ public class GameController : Singleton<GameController>
     {
       attributes.Add(attr.name, attr);
     }
+
+    rewards[Constants.PlannedActionEat] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.CashAttribute, 20),
+    };
+    rewards[Constants.PlannedActionSleep] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.NutritionAttribute, 20),
+    };
+    rewards[Constants.PlannedActionWorkout] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.ManlinessAttribute, 20),
+    };
   }
 
-  public void NextDay()
+  public void ExecuteSchedule(List<string> activities)
   {
+    foreach (string activity in activities)
+    {
+      var bonusList = rewards[activity];
+      foreach (var bonus in bonusList)
+      {
+        ((PlayerAttribute)attributes[bonus.attr]).value += bonus.reward;
+      }
+    }
+
     currentDay += 1;
   }
 

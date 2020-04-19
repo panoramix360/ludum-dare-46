@@ -84,12 +84,11 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       return;
     }
 
-    GC.NextDay();
+    GC.ExecuteSchedule(slots);
+
     calendarBtn.GetComponentInChildren<Text>().text = GC.currentDay.ToString();
     slots.Clear();
     UpdateSlots();
-
-    // TODO: go to the next scene
 
     UpdateAttrs();
   }
