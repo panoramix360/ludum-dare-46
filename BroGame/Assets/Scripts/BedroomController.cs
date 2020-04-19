@@ -29,7 +29,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     // setup slots
     for (int i = 0; i < MAX_SLOTS; i++)
     {
-      var slot = Instantiate(slotPrefab, new Vector2(50 + i * 60, 0), Quaternion.identity);
+      var slot = Instantiate(slotPrefab, new Vector2(i * 60, 0), Quaternion.identity);
       slotBtns.Add(slot);
 
       var slotBtn = slot.GetComponent<Button>();
@@ -44,7 +44,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     for (int i = 0; i < attributes.Count; i++)
     {
       var attr = attributes[i];
-      var statBar = Instantiate(statsPrefab, new Vector2(9 + i * 26, 0), Quaternion.identity);
+      var statBar = Instantiate(statsPrefab); //, new Vector2(i * 26, 0), Quaternion.identity);
       statBar.GetComponent<Image>().color = attr.color;
       statBars.Add(statBar);
 

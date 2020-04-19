@@ -10,7 +10,13 @@ using UnityEngine.SceneManagement;
 
 public class GameController : Singleton<GameController>
 {
-  public int currentDay { get; set; }
+  public const int MAX_DAYS = 20;
+  public const int MAX_PLAYER_LEVELS = 4;
+
+  public int currentDay = 1;
+
+  // player transformation level
+  public int currentPlayerLevel = 0;
 
   public OrderedDictionary attributes = new OrderedDictionary();
 
