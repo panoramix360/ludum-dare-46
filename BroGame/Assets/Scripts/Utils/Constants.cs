@@ -1,9 +1,11 @@
 static class Constants
 {
-  #region PlannedActions
-  public const string PlannedActionWorkout = "workout";
-  public const string PlannedActionEat = "eat";
-  public const string PlannedActionSleep = "sleep";
+  #region Activities
+  public const string HandshakeActivity = "handshake";
+  public const string EatActivity = "eat";
+  public const string RunActivity = "run";
+  public const string PoseActivity = "pose";
+  public const string PunchActivity = "punch";
   #endregion
 
   #region Attributes

@@ -36,14 +36,25 @@ public class GameController : Singleton<GameController>
       attributes.Add(attr.name, attr);
     }
 
-    rewards[Constants.PlannedActionEat] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.CashAttribute, 20),
+    rewards[Constants.HandshakeActivity] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.ManlinessAttribute, 3),
+      new PlayerAttrReward(Constants.NutritionAttribute, -1),
     };
-    rewards[Constants.PlannedActionSleep] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.NutritionAttribute, 20),
+    rewards[Constants.EatActivity] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.NutritionAttribute, 5),
+      new PlayerAttrReward(Constants.CashAttribute, -5),
     };
-    rewards[Constants.PlannedActionWorkout] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.ManlinessAttribute, 20),
+    rewards[Constants.RunActivity] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.ManlinessAttribute, 4),
+      new PlayerAttrReward(Constants.NutritionAttribute, -2),
+    };
+    rewards[Constants.PoseActivity] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.FanbaseAttribute, 5),
+      new PlayerAttrReward(Constants.CashAttribute, 5),
+    };
+    rewards[Constants.PunchActivity] = new PlayerAttrReward[] {
+      new PlayerAttrReward(Constants.ManlinessAttribute, 5),
+      new PlayerAttrReward(Constants.NutritionAttribute, -2),
     };
   }
 
