@@ -20,6 +20,8 @@ public class PancakeSpawner : MonoBehaviour
 
   [SerializeField] private int score;
 
+  [SerializeField] private AudioSource audioSource;
+
   private Camera cam;
 
   private void Awake()
@@ -27,6 +29,8 @@ public class PancakeSpawner : MonoBehaviour
     cam = Camera.main;
 
     levelTxtAnimator = levelTxt.GetComponent<Animator>();
+
+    audioSource = GetComponent<AudioSource>();
   }
 
   private void Start()
@@ -85,6 +89,8 @@ public class PancakeSpawner : MonoBehaviour
 
   private void Eat()
   {
+    audioSource.Play();
+    
     player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("player_eating");
     player.GetComponent<BoxCollider2D>().enabled = false;
 
