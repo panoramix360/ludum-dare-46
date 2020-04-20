@@ -23,7 +23,7 @@ public class GameController : Singleton<GameController>
   // player transformation level
   public int currentPlayerLevel = 1;
 
-  public string character = "rocky";
+  public const string character = "apollo";
 
   public PlayerAttribute[] attrs =
   {

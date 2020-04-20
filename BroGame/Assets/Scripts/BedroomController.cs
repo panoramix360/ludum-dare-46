@@ -139,7 +139,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   public void UpdateCharImg()
   {
-    Sprite playerSrcImg = Resources.Load<Sprite>($"{GC.character}_0{GC.currentPlayerLevel}");
+    Sprite playerSrcImg = Resources.Load<Sprite>($"{GameController.character}_0{GC.currentPlayerLevel}");
     playerImg.sprite = playerSrcImg;
   }
 
