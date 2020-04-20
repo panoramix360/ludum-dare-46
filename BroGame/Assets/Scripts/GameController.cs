@@ -104,6 +104,8 @@ public class GameController : Singleton<GameController>
     }
 
     currentDay += 1;
+
+    brometer.value += 10;
   }
 
   public List<PlayerAttribute> GetVisibleAttributes()

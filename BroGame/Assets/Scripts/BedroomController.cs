@@ -14,7 +14,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   [SerializeField] private GameObject statsPrefab;
   [SerializeField] private GameObject slotPanel;
   [SerializeField] private GameObject statsPanel;
-  [SerializeField] private GameObject brometer;
+  [SerializeField] private Image brometer;
   [SerializeField] private Image playerImg;
   [SerializeField] private Button eatBtn;
   [SerializeField] private Button punchBtn;
@@ -95,7 +95,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     {
       var attr = attributes[i];
       var img = statBars[i].GetComponentsInChildren<Image>()[1];
-      img.fillAmount = (float)attr.value / attr.maxValue;
+      img.fillAmount = attr.percentValue;
       statBars[i].GetComponentInChildren<Text>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
     }
   }
@@ -154,6 +154,17 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     playerImg.sprite = playerSrcImg;
   }
 
+  public void UpdateBrometer()
+  {
+    var children = brometer.GetComponentsInChildren<Image>();
+    var face = children[1] as Image;
+    var bar = children[2] as Image;
+    Debug.Log(GC.brometer.percentValue);
+    bar.fillAmount = GC.brometer.percentValue;
+
+
+  }
+
   public void OnClickGoBtn()
   {
     if (slots.Count() < GC.available_slots)
@@ -172,6 +183,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     UpdateSlots();
 
     UpdateAttrs();
+    UpdateBrometer();
   }
 
   public void OnClickPlanningAction(string actionName)
