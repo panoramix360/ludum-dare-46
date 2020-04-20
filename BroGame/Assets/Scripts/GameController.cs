@@ -39,9 +39,7 @@ public class GameController : Singleton<GameController>
     PlayerAttribute[] attrs =
     {
       new PlayerAttribute(Constants.CashAttribute, value_: 10, maxValue_: 70, color_: new Color32(80, 200, 20, 255)),
-      //new PlayerAttribute(Constants.NutritionAttribute, maxValue_: 70, color_: new Color32(200, 150, 20, 255)),
       new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 70, color_: new Color32(20, 50, 200, 255)),
-      //new PlayerAttribute(Constants.FanbaseAttribute, visible_: false, maxValue_: 70),
       new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 70, color_: new Color32(200, 20, 200, 255)),
     };
 
@@ -50,17 +48,9 @@ public class GameController : Singleton<GameController>
       attributes.Add(attr.name, attr);
     }
 
-    rewards[Constants.HandshakeActivity] = new PlayerAttrReward[] {
-      //new PlayerAttrReward(Constants.ManlinessAttribute, 3),
-      //new PlayerAttrReward(Constants.NutritionAttribute, -1),
-    };
     rewards[Constants.EatActivity] = new PlayerAttrReward[] {
       new PlayerAttrReward(Constants.CashAttribute, -10),
       new PlayerAttrReward(Constants.WillpowerAttribute, +12),
-    };
-    rewards[Constants.RunActivity] = new PlayerAttrReward[] {
-      //new PlayerAttrReward(Constants.ManlinessAttribute, 4),
-      //new PlayerAttrReward(Constants.NutritionAttribute, -2),
     };
     rewards[Constants.PoseActivity] = new PlayerAttrReward[] {
       new PlayerAttrReward(Constants.CashAttribute, +20),
@@ -119,6 +109,6 @@ public class GameController : Singleton<GameController>
 
   public List<PlayerAttribute> GetVisibleAttributes()
   {
-    return attributes.Values.Cast<PlayerAttribute>().Where(attr => attr.visible).ToList();
+    return attributes.Values.Cast<PlayerAttribute>().ToList();
   }
 }
