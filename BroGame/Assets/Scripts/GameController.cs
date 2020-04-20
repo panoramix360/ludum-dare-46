@@ -16,7 +16,9 @@ public class GameController : Singleton<GameController>
   public int currentDay = 1;
 
   // player transformation level
-  public int currentPlayerLevel = 0;
+  public int currentPlayerLevel = 1;
+
+  public string character = "rocky";
 
   public OrderedDictionary attributes = new OrderedDictionary();
 
@@ -73,6 +75,27 @@ public class GameController : Singleton<GameController>
       {
         ((PlayerAttribute)attributes[bonus.attr]).value += bonus.reward;
       }
+    }
+
+    var manlinessAttr = attributes[Constants.ManlinessAttribute] as PlayerAttribute;
+    var manlinessValue = manlinessAttr.value;
+    var manlinessValueMax = manlinessAttr.maxValue;
+    var manlinessPercentage = (float)manlinessValue / manlinessValueMax;
+    if (manlinessPercentage < .5)
+    {
+      currentPlayerLevel = 1;
+    }
+    else if (manlinessPercentage < .7)
+    {
+      currentPlayerLevel = 2;
+    }
+    else if (manlinessPercentage < .9)
+    {
+      currentPlayerLevel = 3;
+    }
+    else
+    {
+      currentPlayerLevel = 4;
     }
 
     currentDay += 1;

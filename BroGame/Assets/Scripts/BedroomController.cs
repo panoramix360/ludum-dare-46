@@ -14,6 +14,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   [SerializeField] private GameObject slotPanel;
   [SerializeField] private GameObject statsPanel;
   [SerializeField] private GameObject brometer;
+  [SerializeField] private Image playerImg;
 
   private List<string> slots = new List<string>();
 
@@ -29,7 +30,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     // setup slots
     for (int i = 0; i < MAX_SLOTS; i++)
     {
-      var slot = Instantiate(slotPrefab, new Vector2(i * 60, 0), Quaternion.identity);
+      var slot = Instantiate(slotPrefab, new Vector2(i * 90, 0), Quaternion.identity);
       slotBtns.Add(slot);
 
       var slotBtn = slot.GetComponent<Button>();
@@ -44,7 +45,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     for (int i = 0; i < attributes.Count; i++)
     {
       var attr = attributes[i];
-      var statBar = Instantiate(statsPrefab); //, new Vector2(i * 26, 0), Quaternion.identity);
+      var statBar = Instantiate(statsPrefab);
       statBar.GetComponent<Image>().color = attr.color;
       statBars.Add(statBar);
 
@@ -77,6 +78,12 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
   }
 
+  public void UpdateCharImg()
+  {
+    Sprite playerSrcImg = Resources.Load<Sprite>($"{GC.character}_0{GC.currentPlayerLevel}");
+    playerImg.sprite = playerSrcImg;
+  }
+
   public void OnClickGoBtn()
   {
     if (slots.Count() < MAX_SLOTS)
@@ -86,6 +93,9 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
 
     GC.ExecuteSchedule(slots);
+
+    // evolve char if needed
+    UpdateCharImg();
 
     calendarBtn.GetComponentInChildren<Text>().text = GC.currentDay.ToString();
     slots.Clear();

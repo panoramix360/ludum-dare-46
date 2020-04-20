@@ -16,4 +16,8 @@ static class Constants
   public const string FanbaseAttribute = "fanbase";
   public const string BrometerAttribute = "brometer";
   #endregion
+
+  #region Characters
+  public const string RockyCharacter = "rocky";
+  #endregion
 }
