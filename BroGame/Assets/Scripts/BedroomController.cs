@@ -18,9 +18,8 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   private List<string> slots = new List<string>();
 
-  private const int MAX_SLOTS = 4;
-
   private List<GameObject> slotBtns = new List<GameObject>();
+
   private List<GameObject> statBars = new List<GameObject>();
 
   private GameController GC { get { return GameController.Instance; } }
@@ -28,7 +27,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   private void Awake()
   {
     // setup slots
-    for (int i = 0; i < MAX_SLOTS; i++)
+    for (int i = 0; i < GameController.MAX_SLOTS; i++)
     {
       var slot = Instantiate(slotPrefab, new Vector2(i * 90, 0), Quaternion.identity);
       slotBtns.Add(slot);
@@ -38,6 +37,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       slotBtn.onClick.AddListener(() => OnClickSlot(tempIdx));
 
       slot.transform.SetParent(slotPanel.transform, false);
+      slotBtn.gameObject.SetActive(i < GC.available_slots);
     }
 
     // setup stats
@@ -62,9 +62,14 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       slotBtns[i].GetComponentInChildren<Text>().text = slots[i];
     }
 
-    for (int i = slots.Count; i < MAX_SLOTS; i++)
+    for (int i = slots.Count; i < GameController.MAX_SLOTS; i++)
     {
       slotBtns[i].GetComponentInChildren<Text>().text = "";
+    }
+
+    for (int i = 0; i < GameController.MAX_SLOTS; i++)
+    {
+      slotBtns[i].gameObject.SetActive(i < GC.available_slots);
     }
   }
 
@@ -74,7 +79,9 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     for (int i = 0; i < attributes.Count; i++)
     {
       var attr = attributes[i];
-      statBars[i].GetComponent<Image>().fillAmount = (float)attr.value / attr.maxValue;
+      var img = statBars[i].GetComponent<Image>();
+      img.fillAmount = (float)attr.value / attr.maxValue;
+      img.GetComponentInChildren<Text>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
     }
   }
 
@@ -86,7 +93,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   public void OnClickGoBtn()
   {
-    if (slots.Count() < MAX_SLOTS)
+    if (slots.Count() < GC.available_slots)
     {
       // TODO: indicate that we can't go unless all slots are filled.
       return;
@@ -106,7 +113,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   public void OnClickPlanningAction(string actionName)
   {
-    if (slots.Count < MAX_SLOTS)
+    if (slots.Count < GameController.MAX_SLOTS)
     {
       slotBtns[slots.Count].GetComponentInChildren<Text>().text = actionName;
       slots.Add(actionName);

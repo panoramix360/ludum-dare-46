@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.VisualBasic;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,8 +11,13 @@ using UnityEngine.SceneManagement;
 
 public class GameController : Singleton<GameController>
 {
-  public const int MAX_DAYS = 20;
+  public const int MAX_DAYS = 7;
+
   public const int MAX_PLAYER_LEVELS = 4;
+
+  public int available_slots = 3;
+
+  public const int MAX_SLOTS = 5;
 
   public int currentDay = 1;
 
@@ -32,11 +38,11 @@ public class GameController : Singleton<GameController>
 
     PlayerAttribute[] attrs =
     {
-      new PlayerAttribute(Constants.CashAttribute, value_: 50, maxValue_: 100, color_: new Color32(80, 200, 20, 255)),
-      new PlayerAttribute(Constants.NutritionAttribute, maxValue_: 100, color_: new Color32(200, 150, 20, 255)),
-      new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 100, color_: new Color32(20, 50, 200, 255)),
-      new PlayerAttribute(Constants.FanbaseAttribute, visible_: false, maxValue_: 100),
-      new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 100, color_: new Color32(200, 20, 200, 255)),
+      new PlayerAttribute(Constants.CashAttribute, value_: 10, maxValue_: 70, color_: new Color32(80, 200, 20, 255)),
+      //new PlayerAttribute(Constants.NutritionAttribute, maxValue_: 70, color_: new Color32(200, 150, 20, 255)),
+      new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 70, color_: new Color32(20, 50, 200, 255)),
+      //new PlayerAttribute(Constants.FanbaseAttribute, visible_: false, maxValue_: 70),
+      new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 70, color_: new Color32(200, 20, 200, 255)),
     };
 
     foreach (var attr in attrs)
@@ -45,24 +51,23 @@ public class GameController : Singleton<GameController>
     }
 
     rewards[Constants.HandshakeActivity] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.ManlinessAttribute, 3),
-      new PlayerAttrReward(Constants.NutritionAttribute, -1),
+      //new PlayerAttrReward(Constants.ManlinessAttribute, 3),
+      //new PlayerAttrReward(Constants.NutritionAttribute, -1),
     };
     rewards[Constants.EatActivity] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.NutritionAttribute, 5),
-      new PlayerAttrReward(Constants.CashAttribute, -5),
+      new PlayerAttrReward(Constants.CashAttribute, -10),
+      new PlayerAttrReward(Constants.WillpowerAttribute, +12),
     };
     rewards[Constants.RunActivity] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.ManlinessAttribute, 4),
-      new PlayerAttrReward(Constants.NutritionAttribute, -2),
+      //new PlayerAttrReward(Constants.ManlinessAttribute, 4),
+      //new PlayerAttrReward(Constants.NutritionAttribute, -2),
     };
     rewards[Constants.PoseActivity] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.FanbaseAttribute, 5),
-      new PlayerAttrReward(Constants.CashAttribute, 5),
+      new PlayerAttrReward(Constants.CashAttribute, +20),
+      new PlayerAttrReward(Constants.ManlinessAttribute, -5),
     };
     rewards[Constants.PunchActivity] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.ManlinessAttribute, 5),
-      new PlayerAttrReward(Constants.NutritionAttribute, -2),
+      new PlayerAttrReward(Constants.ManlinessAttribute, +10),
     };
   }
 
@@ -78,24 +83,35 @@ public class GameController : Singleton<GameController>
     }
 
     var manlinessAttr = attributes[Constants.ManlinessAttribute] as PlayerAttribute;
-    var manlinessValue = manlinessAttr.value;
-    var manlinessValueMax = manlinessAttr.maxValue;
-    var manlinessPercentage = (float)manlinessValue / manlinessValueMax;
-    if (manlinessPercentage < .5)
+    if (manlinessAttr.percentValue < .5)
     {
       currentPlayerLevel = 1;
     }
-    else if (manlinessPercentage < .7)
+    else if (manlinessAttr.percentValue < .7)
     {
       currentPlayerLevel = 2;
     }
-    else if (manlinessPercentage < .9)
+    else if (manlinessAttr.percentValue < .9)
     {
       currentPlayerLevel = 3;
     }
     else
     {
       currentPlayerLevel = 4;
+    }
+
+    var willpowerAttr = attributes[Constants.WillpowerAttribute] as PlayerAttribute;
+    if (willpowerAttr.percentValue < .3)
+    {
+      available_slots = 3;
+    }
+    else if (willpowerAttr.percentValue < .6)
+    {
+      available_slots = 4;
+    }
+    else
+    {
+      available_slots = 5;
     }
 
     currentDay += 1;

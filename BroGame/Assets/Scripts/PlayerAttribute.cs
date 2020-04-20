@@ -6,6 +6,7 @@ public class PlayerAttribute
   public int value { get; set; }
   public int maxValue { get; set; }
   public bool visible { get; set; }
+  public float percentValue { get { return (float)value / maxValue; } }
 
   public Color32 color { get; set; }
 
