@@ -22,7 +22,6 @@ public class PancakeSpawner : MonoBehaviour
 
     private void Awake()
     {
-
         cam = Camera.main;
 
         levelTxtAnimator = levelTxt.GetComponent<Animator>();

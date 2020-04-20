@@ -108,6 +108,10 @@ public class RunGameController : MonoBehaviour
 
         ShowContestDirections(runningContestDirections);
 
+        yield return new WaitForSeconds(5f);
+
+        HideContestDirections();
+
         BeginCountdown();
 
         isContestRunning = true;
@@ -127,7 +131,9 @@ public class RunGameController : MonoBehaviour
 
     private void ShowContestDirections(List<DirectionEnum> directionsToShow)
     {
-        foreach(DirectionEnum direction in directionsToShow)
+        broCoachDirectionsContainer.gameObject.SetActive(true);
+
+        foreach (DirectionEnum direction in directionsToShow)
         {
             switch(direction)
             {
@@ -145,6 +151,11 @@ public class RunGameController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void HideContestDirections()
+    {
+        broCoachDirectionsContainer.gameObject.SetActive(false);
     }
 
     private void CreateDirectionUI(Direction prefab, Sprite sprite, Transform parent)
