@@ -15,6 +15,9 @@ public class RunGameController : MonoBehaviour
     [SerializeField] private Sprite arrowRight;
 
     [SerializeField] private Direction directionPrefab;
+    [SerializeField] private Direction directionLargePrefab;
+
+    [SerializeField] private GameObject posePlayer;
 
     [Header("Contest details")]
     [SerializeField] private List<Contest> contests;
@@ -60,25 +63,25 @@ public class RunGameController : MonoBehaviour
             {
                 if (upArrowPressed)
                 {
-                    CreateDirectionUI(arrowUp, playerCommandsContainer.transform);
+                    CreateDirectionUI(directionLargePrefab, arrowUp, playerCommandsContainer.transform);
                     lastDirectionPressed = DirectionEnum.UP;
                 }
 
                 if (downArrowPressed)
                 {
-                    CreateDirectionUI(arrowDown, playerCommandsContainer.transform);
+                    CreateDirectionUI(directionLargePrefab, arrowDown, playerCommandsContainer.transform);
                     lastDirectionPressed = DirectionEnum.DOWN;
                 }
 
                 if (leftArrowPressed)
                 {
-                    CreateDirectionUI(arrowLeft, playerCommandsContainer.transform);
+                    CreateDirectionUI(directionLargePrefab, arrowLeft, playerCommandsContainer.transform);
                     lastDirectionPressed = DirectionEnum.LEFT;
                 }
 
                 if (rightArrowPressed)
                 {
-                    CreateDirectionUI(arrowRight, playerCommandsContainer.transform);
+                    CreateDirectionUI(directionLargePrefab, arrowRight, playerCommandsContainer.transform);
                     lastDirectionPressed = DirectionEnum.RIGHT;
                 }
 
@@ -94,16 +97,16 @@ public class RunGameController : MonoBehaviour
 
     private IEnumerator GeneratePoseContest()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         RemoveAllChildren(broCoachDirectionsContainer);
         RemoveAllChildren(playerCommandsContainer);
 
         GenerateContestDirections();
 
-        ShowContestDirections(runningContestDirections);
-
         yield return new WaitForSeconds(1f);
+
+        ShowContestDirections(runningContestDirections);
 
         BeginCountdown();
 
@@ -129,24 +132,24 @@ public class RunGameController : MonoBehaviour
             switch(direction)
             {
                 case DirectionEnum.LEFT:
-                    CreateDirectionUI(arrowLeft, broCoachDirectionsContainer.transform);
+                    CreateDirectionUI(directionPrefab, arrowLeft, broCoachDirectionsContainer.transform);
                     break;
                 case DirectionEnum.RIGHT:
-                    CreateDirectionUI(arrowRight, broCoachDirectionsContainer.transform);
+                    CreateDirectionUI(directionPrefab, arrowRight, broCoachDirectionsContainer.transform);
                     break;
                 case DirectionEnum.UP:
-                    CreateDirectionUI(arrowUp, broCoachDirectionsContainer.transform);
+                    CreateDirectionUI(directionPrefab, arrowUp, broCoachDirectionsContainer.transform);
                     break;
                 case DirectionEnum.DOWN:
-                    CreateDirectionUI(arrowDown, broCoachDirectionsContainer.transform);
+                    CreateDirectionUI(directionPrefab, arrowDown, broCoachDirectionsContainer.transform);
                     break;
             }
         }
     }
 
-    private void CreateDirectionUI(Sprite sprite, Transform parent)
+    private void CreateDirectionUI(Direction prefab, Sprite sprite, Transform parent)
     {
-        Direction directionObj = Instantiate(directionPrefab, parent);
+        Direction directionObj = Instantiate(prefab, parent);
         directionObj.SetImage(sprite);
     }
 
@@ -159,7 +162,13 @@ public class RunGameController : MonoBehaviour
     private bool CheckIfContestEnded()
     {
         Debug.Log("Contest ended!");
-        return runningContestDirections.Count == directionsPressedCount;
+        bool contestEnded = runningContestDirections.Count == directionsPressedCount;
+        if (contestEnded)
+        {
+            int randomPose = Random.Range(1, 7);
+            posePlayer.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"pose_0{randomPose}");
+        }
+        return contestEnded;
     }
 
     public void NextContest()
