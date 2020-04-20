@@ -15,6 +15,9 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   [SerializeField] private GameObject statsPanel;
   [SerializeField] private GameObject brometer;
   [SerializeField] private Image playerImg;
+  [SerializeField] private Button eatBtn;
+  [SerializeField] private Button punchBtn;
+  [SerializeField] private Button poseBtn;
 
   private List<string> slots = new List<string>();
 
@@ -53,6 +56,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
 
     UpdateAttrs();
+    UpdateActionBtns();
   }
 
   private void UpdateSlots()
@@ -85,6 +89,54 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
   }
 
+  private void UpdateActionBtns()
+  {
+    Button[] btns = { eatBtn, poseBtn, punchBtn };
+    PlayerAttrReward[][] rewards = { GC.rewards[Constants.EatActivity], GC.rewards[Constants.PoseActivity],
+                    GC.rewards[Constants.PunchActivity] };
+    var attrs = GC.attributes;
+    var simAttrs = GC.attrs.ToDictionary(attr => attr.name, attr => attr.value);
+
+    Debug.Log("-------");
+
+    // apply rewards to simulation
+    for (int i = 0; i < slots.Count; i++)
+    {
+      string slotName = slots[i];
+      var pars = GC.rewards[slotName];
+      foreach (var par in pars)
+      {
+        simAttrs[par.attr] += par.reward;
+        Debug.Log($"0 {par.attr} {simAttrs[par.attr]}");
+      }
+    }
+
+    for (int i = 0; i < btns.Count(); i++)
+    {
+      // for each button, check if applying its next reward would mean disabling it
+      Debug.Log($"i = {i}");
+      foreach (var par in rewards[i])
+      {
+        simAttrs[par.attr] += par.reward;
+        Debug.Log($"1 {par.attr} {simAttrs[par.attr]}");
+      }
+
+      btns[i].interactable = true;
+      foreach (var simAttr in simAttrs.Values)
+      {
+        if (simAttr < 0)
+        {
+          btns[i].interactable = false;
+        }
+      }
+
+      foreach (var par in rewards[i])
+      {
+        simAttrs[par.attr] -= par.reward;
+      }
+    }
+  }
+
   public void UpdateCharImg()
   {
     Sprite playerSrcImg = Resources.Load<Sprite>($"{GC.character}_0{GC.currentPlayerLevel}");
@@ -113,11 +165,16 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   public void OnClickPlanningAction(string actionName)
   {
-    if (slots.Count < GameController.MAX_SLOTS)
+    if (slots.Count == GameController.MAX_SLOTS)
     {
-      slotBtns[slots.Count].GetComponentInChildren<Text>().text = actionName;
-      slots.Add(actionName);
+      // ignore when the slots are full
+      return;
     }
+
+    slotBtns[slots.Count].GetComponentInChildren<Text>().text = actionName;
+    slots.Add(actionName);
+
+    UpdateActionBtns();
   }
 
   public void OnClickSlot(int idx)
@@ -129,5 +186,6 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
 
     UpdateSlots();
+    UpdateActionBtns();
   }
 }

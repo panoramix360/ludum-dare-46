@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -26,22 +25,22 @@ public class GameController : Singleton<GameController>
 
   public string character = "rocky";
 
-  public OrderedDictionary attributes = new OrderedDictionary();
-
-  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 100);
-
-  private Dictionary<string, PlayerAttrReward[]> rewards = new Dictionary<string, PlayerAttrReward[]>();
-
-  private void Awake()
+  public PlayerAttribute[] attrs =
   {
-    Debug.Log("GC Started");
-
-    PlayerAttribute[] attrs =
-    {
       new PlayerAttribute(Constants.CashAttribute, value_: 10, maxValue_: 70, color_: new Color32(80, 200, 20, 255)),
       new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 70, color_: new Color32(20, 50, 200, 255)),
       new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 70, color_: new Color32(200, 20, 200, 255)),
     };
+
+  public OrderedDictionary attributes = new OrderedDictionary();
+
+  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 100);
+
+  public Dictionary<string, PlayerAttrReward[]> rewards = new Dictionary<string, PlayerAttrReward[]>();
+
+  private void Awake()
+  {
+    Debug.Log("GC Started");
 
     foreach (var attr in attrs)
     {
