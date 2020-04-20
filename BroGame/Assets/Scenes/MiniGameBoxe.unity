@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 61019258}
   - component: {fileID: 61019259}
   - component: {fileID: 61019260}
+  - component: {fileID: 61019261}
   m_Layer: 0
   m_Name: braco_esq
   m_TagString: Untagged
@@ -229,13 +230,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61019257}
-  m_LocalRotation: {x: -0, y: -0, z: 0.05262243, w: 0.9986145}
+  m_LocalRotation: {x: 0, y: 0, z: 0.052335896, w: 0.9986295}
   m_LocalPosition: {x: 5.66, y: -1.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 4110780}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6.0330005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 6}
 --- !u!212 &61019259
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -305,6 +306,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &61019261
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61019257}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.44, y: 3.37}
+  serializedVersion: 2
+  m_Radius: 0.38
 --- !u!1 &279941995
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +399,7 @@ GameObject:
   - component: {fileID: 451118232}
   - component: {fileID: 451118231}
   - component: {fileID: 451118235}
+  - component: {fileID: 451118234}
   - component: {fileID: 451118233}
   m_Layer: 0
   m_Name: Boxe Bag
@@ -447,7 +465,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 451118230}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 15.14, y: 8.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
@@ -467,9 +485,21 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.81}
-  m_Size: {x: 0.74, y: 0.92}
+  m_Offset: {x: 0, y: -1.79}
+  m_Size: {x: 0.89, y: 3.5}
   m_Direction: 0
+--- !u!114 &451118234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451118230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4acab1f6f10ab428109bd3b92a9b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &451118235
 Rigidbody2D:
   serializedVersion: 4
@@ -482,7 +512,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -633,7 +663,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.37}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -644,7 +674,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.5, y: 3.5}
+  m_Size: {x: 6.5, y: 2.98}
   m_EdgeRadius: 0
 --- !u!1 &720552139
 GameObject:
@@ -657,6 +687,7 @@ GameObject:
   - component: {fileID: 720552140}
   - component: {fileID: 720552141}
   - component: {fileID: 720552142}
+  - component: {fileID: 720552143}
   m_Layer: 0
   m_Name: braco_dir
   m_TagString: Untagged
@@ -671,13 +702,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720552139}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.08715578, w: 0.9961947}
   m_LocalPosition: {x: 4.25, y: -1.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 4110780}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10}
 --- !u!212 &720552141
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -747,6 +778,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &720552143
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720552139}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.35, y: 3.85}
+  serializedVersion: 2
+  m_Radius: 0.38
 --- !u!1 &915777952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1106,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   broCoachTxt: {fileID: 1953350143}
   boxeBag: {fileID: 451118230}
+  rightArmAnim: {fileID: 720552142}
+  leftArmAnim: {fileID: 61019260}
   startLimitToChangeOption: 10
   endLimitToChangeOption: 30
   randomLimitToChangeOption: 0

@@ -24,8 +24,6 @@ public class BoxeGameController : MonoBehaviour
 
     [SerializeField] private State currentState;
 
-    private float strenghPush = 100f;
-
     private string[] broCoachOptions =  {
         "LEFT BRO!",
         "Keep up Bro!",
@@ -58,16 +56,14 @@ public class BoxeGameController : MonoBehaviour
         {
             if (qKeyPressed)
             {
-                OnQKeyPressed();
                 rightArmAnim.SetBool("isMoving", true);
-                boxeBag.GetComponent<Rigidbody2D>().AddForce(new Vector2(strenghPush, 0));
+                OnQKeyPressed();
             }
 
             if (eKeyPressed)
             {
-                OnEKeyPressed();
                 leftArmAnim.SetBool("isMoving", true);
-                boxeBag.GetComponent<Rigidbody2D>().AddForce(new Vector2(strenghPush, 0));
+                OnEKeyPressed();
             }
         }
         else
