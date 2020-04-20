@@ -14,6 +14,9 @@ public class BoxeGameController : MonoBehaviour
     [SerializeField] private Animator rightArmAnim;
     [SerializeField] private Animator leftArmAnim;
 
+    [SerializeField] private Animator leftKeyAnimator;
+    [SerializeField] private Animator rightKeyAnimator;
+
     [SerializeField] private int startLimitToChangeOption = 10;
     [SerializeField] private int endLimitToChangeOption = 30;
 
