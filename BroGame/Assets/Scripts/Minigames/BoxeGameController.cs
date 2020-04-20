@@ -20,6 +20,7 @@ public class BoxeGameController : MonoBehaviour
     [Header("Don't change this fields!")]
     [SerializeField] private float countdown = 60;
 
+    [SerializeField] private int highestHitCombo;
     [SerializeField] private int hitCombo;
     [SerializeField] private State lastStatePressed;
     [SerializeField] private float hitTimer;
@@ -156,6 +157,11 @@ public class BoxeGameController : MonoBehaviour
             hitTimer = 0;
             comboTxt.text = hitCombo + "x";
             Debug.Log(hitCombo);
+
+            if (hitCombo > highestHitCombo)
+            {
+                highestHitCombo = hitCombo;
+            }
         }
     }
 

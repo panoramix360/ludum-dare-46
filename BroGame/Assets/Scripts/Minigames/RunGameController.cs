@@ -28,6 +28,8 @@ public class RunGameController : MonoBehaviour
     [SerializeField] private int directionsPressedCount;
     [SerializeField] private DirectionEnum lastDirectionPressed;
 
+    [SerializeField] private int score = 0;
+
     [SerializeField] private bool isContestRunning = false;
 
     private DirectionEnum[] possibleDirections =
@@ -178,6 +180,8 @@ public class RunGameController : MonoBehaviour
         {
             int randomPose = Random.Range(1, 7);
             posePlayer.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"pose_0{randomPose}");
+
+            score += directionsPressedCount;
         }
         return contestEnded;
     }

@@ -18,6 +18,8 @@ public class PancakeSpawner : MonoBehaviour
 
     [SerializeField] private GameObject player;
 
+    [SerializeField] private int score;
+
     private Camera cam;
 
     private void Awake()
@@ -85,6 +87,8 @@ public class PancakeSpawner : MonoBehaviour
         player.GetComponent<BoxCollider2D>().enabled = false;
 
         int pancakesCount = pancakeGroup.gameObject.transform.childCount;
+
+        score += pancakesCount;
 
         Debug.Log(pancakesCount);
 
