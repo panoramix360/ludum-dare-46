@@ -16,6 +16,8 @@ public class GameController : Singleton<GameController>
 
   public int available_slots = 3;
 
+  public int brometerLvl = 0;
+
   public const int MAX_SLOTS = 5;
 
   public int currentDay = 1;
@@ -106,6 +108,27 @@ public class GameController : Singleton<GameController>
     currentDay += 1;
 
     brometer.value += 10;
+
+    if (brometer.percentValue < .1)
+    {
+      brometerLvl = 0;
+    }
+    else if (brometer.percentValue < .3)
+    {
+      brometerLvl = 1;
+    }
+    else if (brometer.percentValue < .5)
+    {
+      brometerLvl = 2;
+    }
+    else if (brometer.percentValue < .85)
+    {
+      brometerLvl = 3;
+    }
+    else
+    {
+      brometerLvl = 4;
+    }
   }
 
   public List<PlayerAttribute> GetVisibleAttributes()

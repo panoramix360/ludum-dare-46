@@ -159,10 +159,9 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     var children = brometer.GetComponentsInChildren<Image>();
     var face = children[1] as Image;
     var bar = children[2] as Image;
-    Debug.Log(GC.brometer.percentValue);
     bar.fillAmount = GC.brometer.percentValue;
 
-
+    face.sprite = Resources.Load<Sprite>($"brometer_{GC.brometerLvl}");
   }
 
   public void OnClickGoBtn()
