@@ -151,8 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   available_slots: 3
+  brometerLvl: 0
   currentDay: 1
   currentPlayerLevel: 0
+  awake: 0
 --- !u!4 &20376995
 Transform:
   m_ObjectHideFlags: 0
@@ -199,7 +201,7 @@ RectTransform:
   - {fileID: 1350711408}
   - {fileID: 1041731188}
   m_Father: {fileID: 1316147526}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1390,12 +1392,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 916690122}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &916690124 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1530351027155707659, guid: afdaa6f80e0e8c8dab3dbb829dea4590,
-    type: 3}
-  m_PrefabInstance: {fileID: 916690122}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1000971232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1822,6 +1818,7 @@ RectTransform:
   - {fileID: 873847402}
   - {fileID: 1104152110}
   - {fileID: 916690123}
+  - {fileID: 24004350}
   - {fileID: 1443485700}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1946,7 +1943,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1316147526}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1967,7 +1964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.44705883}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
