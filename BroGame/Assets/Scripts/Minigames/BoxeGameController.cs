@@ -19,6 +19,9 @@ public class BoxeGameController : MonoBehaviour
 
   [SerializeField] private int startLimitToChangeOption = 10;
   [SerializeField] private int endLimitToChangeOption = 30;
+  [SerializeField] private AudioSource grunt1;
+  [SerializeField] private AudioSource grunt2;
+  [SerializeField] private AudioSource grunt3;
 
   [Header("Don't change this fields!")]
   [SerializeField] private float countdown = 60;
@@ -65,6 +68,20 @@ public class BoxeGameController : MonoBehaviour
       hitCombo = 0;
       hitTimer = 0;
       comboTxt.text = "";
+
+      int randomNum = Random.Range(0, 3);
+      switch(randomNum)
+      {
+          case 0:
+              grunt1.Play();
+              break;
+          case 1:
+              grunt2.Play();
+              break;
+          case 2:
+              grunt3.Play();
+              break;
+      }
     }
 
     bool leftKeyPressed = Input.GetKeyDown(KeyCode.LeftArrow);
