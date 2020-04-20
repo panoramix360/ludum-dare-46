@@ -4,11 +4,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class BedroomController : SingletonDestroyable<BedroomController>
 {
   [SerializeField] private Button goBtn;
-  [SerializeField] private Button calendarBtn;
+  [SerializeField] private TextMeshProUGUI calendarTxt;
   [SerializeField] private GameObject slotPrefab;
   [SerializeField] private GameObject statsPrefab;
   [SerializeField] private GameObject slotPanel;
@@ -26,6 +27,8 @@ public class BedroomController : SingletonDestroyable<BedroomController>
   private List<GameObject> statBars = new List<GameObject>();
 
   private GameController GC { get { return GameController.Instance; } }
+
+  private string[] weekdays = { "mon", "tue", "wed", "thu", "fri", "sat", "sun" };
 
   private void Awake()
   {
@@ -156,7 +159,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     // evolve char if needed
     UpdateCharImg();
 
-    calendarBtn.GetComponentInChildren<Text>().text = GC.currentDay.ToString();
+    calendarTxt.text = weekdays[(GC.currentDay - 1) % 7];
     slots.Clear();
     UpdateSlots();
 
