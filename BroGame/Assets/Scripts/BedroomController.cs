@@ -52,7 +52,15 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     {
       var attr = attributes[i];
       var statBar = Instantiate(statsPrefab);
-      statBar.GetComponent<Image>().color = attr.color;
+
+      var statBarImgs = statBar.GetComponentsInChildren<Image>();
+
+      if (attr.iconName != null)
+      {
+        statBarImgs[0].sprite = Resources.Load<Sprite>(attr.iconName);
+      }
+
+      statBarImgs[1].color = attr.color;
       statBars.Add(statBar);
 
       statBar.transform.SetParent(statsPanel.transform, false);
@@ -86,9 +94,9 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     for (int i = 0; i < attributes.Count; i++)
     {
       var attr = attributes[i];
-      var img = statBars[i].GetComponent<Image>();
+      var img = statBars[i].GetComponentsInChildren<Image>()[1];
       img.fillAmount = (float)attr.value / attr.maxValue;
-      img.GetComponentInChildren<Text>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
+      statBars[i].GetComponentInChildren<Text>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
     }
   }
 

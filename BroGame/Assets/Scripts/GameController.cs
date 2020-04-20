@@ -27,9 +27,9 @@ public class GameController : Singleton<GameController>
 
   public PlayerAttribute[] attrs =
   {
-      new PlayerAttribute(Constants.CashAttribute, value_: 10, maxValue_: 70, color_: new Color32(80, 200, 20, 255)),
-      new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 70, color_: new Color32(20, 50, 200, 255)),
-      new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 70, color_: new Color32(200, 20, 200, 255)),
+      new PlayerAttribute(Constants.CashAttribute, value_: 10, maxValue_: 70, color_: new Color32(41, 154, 10, 255), iconName_: "money_icon"),
+      new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 70, color_: new Color32(254, 102, 0, 255), iconName_: "strength_icon"),
+      new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 70, color_: new Color32(31, 226, 255, 255), iconName_: "willpower_icon"),
     };
 
   public OrderedDictionary attributes = new OrderedDictionary();

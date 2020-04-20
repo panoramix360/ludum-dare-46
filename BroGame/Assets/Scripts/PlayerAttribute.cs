@@ -9,11 +9,14 @@ public class PlayerAttribute
 
   public Color32 color { get; set; }
 
-  public PlayerAttribute(string name_, int maxValue_, Color32 color_ = default, int value_ = 0)
+  public string iconName { get; set; }
+
+  public PlayerAttribute(string name_, int maxValue_, string iconName_ = null, Color32 color_ = default, int value_ = 0)
   {
     name = name_;
     value = value_;
     maxValue = maxValue_;
     color = color_;
+    iconName = iconName_;
   }
 }
