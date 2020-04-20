@@ -8,7 +8,8 @@ public class BoxeGameController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI broCoachTxt;
     [SerializeField] private GameObject boxeBag;
-    private Animator boxeBagAnimator;
+    [SerializeField] private Animator rightArmAnim;
+    [SerializeField] private Animator leftArmAnim;
 
     [SerializeField] private int startLimitToChangeOption = 10;
     [SerializeField] private int endLimitToChangeOption = 30;
@@ -58,14 +59,21 @@ public class BoxeGameController : MonoBehaviour
             if (qKeyPressed)
             {
                 OnQKeyPressed();
+                rightArmAnim.SetBool("isMoving", true);
                 boxeBag.GetComponent<Rigidbody2D>().AddForce(new Vector2(strenghPush, 0));
             }
 
             if (eKeyPressed)
             {
                 OnEKeyPressed();
+                leftArmAnim.SetBool("isMoving", true);
                 boxeBag.GetComponent<Rigidbody2D>().AddForce(new Vector2(strenghPush, 0));
             }
+        }
+        else
+        {
+            rightArmAnim.SetBool("isMoving", false);
+            leftArmAnim.SetBool("isMoving", false);
         }
     }
 
