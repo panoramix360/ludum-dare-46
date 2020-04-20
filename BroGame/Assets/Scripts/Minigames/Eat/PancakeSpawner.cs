@@ -16,11 +16,12 @@ public class PancakeSpawner : MonoBehaviour
 
     [SerializeField] private int pancakeToSpawn;
 
+    [SerializeField] private GameObject player;
+
     private Camera cam;
 
     private void Awake()
     {
-        Random.InitState(System.DateTime.Now.Millisecond);
 
         cam = Camera.main;
 
@@ -57,7 +58,14 @@ public class PancakeSpawner : MonoBehaviour
                 yield return new WaitForSeconds(.5f);
             }
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2f);
+            
+            Eat();
+
+            yield return new WaitForSeconds(3f);
+
+            player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("player");
+            player.GetComponent<BoxCollider2D>().enabled = true;
 
             if (currentLevel == levels) break;
 
@@ -70,5 +78,22 @@ public class PancakeSpawner : MonoBehaviour
         }
 
         Debug.Log("finish game!");
+    }
+
+    private void Eat()
+    {
+        player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("player_eating");
+        player.GetComponent<BoxCollider2D>().enabled = false;
+
+        int pancakesCount = pancakeGroup.gameObject.transform.childCount;
+
+        Debug.Log(pancakesCount);
+
+        foreach(Transform children in pancakeGroup.gameObject.transform)
+        {
+            int randomX = Random.Range(-150, 150);
+            children.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("pancake_eated");
+            children.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomX, 60f), ForceMode2D.Impulse);
+        }
     }
 }
