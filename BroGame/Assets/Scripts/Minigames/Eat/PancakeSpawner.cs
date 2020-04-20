@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PancakeSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject pancakePrefab;
     [SerializeField] private GameObject pancakeGroup;
+    [SerializeField] private Text levelTxt;
+    private Animator levelTxtAnimator;
 
     [SerializeField] private int pancakeInitial;
     [SerializeField] private float pancakeMultiplier;
     [SerializeField] private int levels;
 
-    private int pancakeToSpawn;
+    [SerializeField] private int pancakeToSpawn;
 
     private Camera cam;
 
@@ -20,6 +23,8 @@ public class PancakeSpawner : MonoBehaviour
         Random.InitState(System.DateTime.Now.Millisecond);
 
         cam = Camera.main;
+
+        levelTxtAnimator = levelTxt.GetComponent<Animator>();
     }
 
     private void Start()
@@ -31,12 +36,16 @@ public class PancakeSpawner : MonoBehaviour
 
     private IEnumerator BeginSpawningPancakes()
     {
-        yield return new WaitForSeconds(1f);
+        levelTxtAnimator.SetBool("isAnimating", true);
 
         int currentLevel = 1;
 
-        while(currentLevel < levels)
+        while(currentLevel <= levels)
         {
+            yield return new WaitForSeconds(1f);
+
+            levelTxtAnimator.SetBool("isAnimating", false);
+
             for (int i = 0; i < pancakeToSpawn; i++)
             {
                 float randomX = Random.Range(cam.ScreenToWorldPoint(new Vector2(0, 0)).x, cam.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
@@ -50,9 +59,16 @@ public class PancakeSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(5f);
 
+            if (currentLevel == levels) break;
 
+            currentLevel++;
+
+            levelTxt.text = "Level " + currentLevel + ", Bro!";
+            levelTxtAnimator.SetBool("isAnimating", true);
+
+            pancakeToSpawn = (int) (pancakeToSpawn * pancakeMultiplier);
         }
 
-        
+        Debug.Log("finish game!");
     }
 }
