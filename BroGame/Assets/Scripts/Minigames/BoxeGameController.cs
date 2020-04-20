@@ -70,6 +70,11 @@ public class BoxeGameController : MonoBehaviour
     bool leftKeyPressed = Input.GetKeyDown(KeyCode.LeftArrow);
     bool rightKeyPressed = Input.GetKeyDown(KeyCode.RightArrow);
 
+    if (GameController.DEBUG && Input.GetKeyDown(KeyCode.D))
+    {
+      countdown = 3;
+    }
+
     if (leftKeyPressed || rightKeyPressed)
     {
       if (leftKeyPressed)

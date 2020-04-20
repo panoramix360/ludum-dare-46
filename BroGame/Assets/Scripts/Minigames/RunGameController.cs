@@ -59,6 +59,11 @@ public class RunGameController : MonoBehaviour
     bool leftArrowPressed = Input.GetKeyDown(KeyCode.LeftArrow);
     bool rightArrowPressed = Input.GetKeyDown(KeyCode.RightArrow);
 
+    if (GameController.DEBUG && Input.GetKeyDown(KeyCode.D))
+    {
+      NextContest();
+    }
+
     if (isContestRunning)
     {
       if (upArrowPressed || downArrowPressed || leftArrowPressed || rightArrowPressed)
