@@ -14,6 +14,6 @@ public class BoxeBag : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        rigidbody2d.AddForce(new Vector2(300f, 0));
+        rigidbody2d.AddForce(new Vector2(700f, 0));
     }
 }
