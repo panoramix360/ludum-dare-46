@@ -6,176 +6,178 @@ using TMPro;
 
 public class BoxeGameController : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI broCoachTxt;
-    [SerializeField] private TextMeshProUGUI comboTxt;
-    [SerializeField] private GameObject boxeBag;
-    [SerializeField] private Collider2D rightArmCollider;
-    [SerializeField] private Collider2D leftArmCollider;
-    [SerializeField] private Animator rightArmAnim;
-    [SerializeField] private Animator leftArmAnim;
+  [SerializeField] private TextMeshProUGUI broCoachTxt;
+  [SerializeField] private TextMeshProUGUI comboTxt;
+  [SerializeField] private GameObject boxeBag;
+  [SerializeField] private Collider2D rightArmCollider;
+  [SerializeField] private Collider2D leftArmCollider;
+  [SerializeField] private Animator rightArmAnim;
+  [SerializeField] private Animator leftArmAnim;
 
-    [SerializeField] private Animator leftKeyAnimator;
-    [SerializeField] private Animator rightKeyAnimator;
+  [SerializeField] private Animator leftKeyAnimator;
+  [SerializeField] private Animator rightKeyAnimator;
 
-    [SerializeField] private int startLimitToChangeOption = 10;
-    [SerializeField] private int endLimitToChangeOption = 30;
+  [SerializeField] private int startLimitToChangeOption = 10;
+  [SerializeField] private int endLimitToChangeOption = 30;
 
-    [Header("Don't change this fields!")]
-    [SerializeField] private float countdown = 60;
+  [Header("Don't change this fields!")]
+  [SerializeField] private float countdown = 60;
 
-    [SerializeField] private int highestHitCombo;
-    [SerializeField] private int hitCombo;
-    [SerializeField] private State lastStatePressed;
-    [SerializeField] private float hitTimer;
-    [SerializeField] private float hitWindow = 1f;
+  [SerializeField] private int highestHitCombo;
+  [SerializeField] private int hitCombo;
+  [SerializeField] private State lastStatePressed;
+  [SerializeField] private float hitTimer;
+  [SerializeField] private float hitWindow = 1f;
 
-    [SerializeField] private int broRandomOrder;
-    [SerializeField] private State currentBroOrder;
+  [SerializeField] private int broRandomOrder;
+  [SerializeField] private State currentBroOrder;
 
-    private string[] broCoachOptions =  {
+  private string[] broCoachOptions =  {
         "LEFT BRO!",
         "LEFT AND RIGHT BRO!",
         "RIGHT BRO!"
     };
 
-    private void Awake()
+  private void Awake()
+  {
+    Random.InitState(System.DateTime.Now.Millisecond);
+  }
+
+  private void Start()
+  {
+    broRandomOrder = Random.Range(0, broCoachOptions.Length);
+
+    SetBroOrder(broRandomOrder);
+
+    StartCoroutine(StartCoaching());
+  }
+
+  private void Update()
+  {
+    if (countdown > 0)
     {
-        Random.InitState(System.DateTime.Now.Millisecond);
+      countdown -= Time.deltaTime;
     }
 
-    private void Start()
+    hitTimer += Time.deltaTime;
+    if (hitTimer >= hitWindow)
     {
-        broRandomOrder = Random.Range(0, broCoachOptions.Length);
-
-        SetBroOrder(broRandomOrder);
-
-        StartCoroutine(StartCoaching());
+      hitCombo = 0;
+      hitTimer = 0;
+      comboTxt.text = "";
     }
 
-    private void Update()
+    bool leftKeyPressed = Input.GetKeyDown(KeyCode.LeftArrow);
+    bool rightKeyPressed = Input.GetKeyDown(KeyCode.RightArrow);
+
+    if (leftKeyPressed || rightKeyPressed)
     {
-        if (countdown > 0)
+      if (leftKeyPressed)
+      {
+        leftArmAnim.SetBool("isMoving", true);
+
+        if (lastStatePressed == State.RIGHT)
         {
-            countdown -= Time.deltaTime;
-        }
-
-        hitTimer += Time.deltaTime;
-        if (hitTimer >= hitWindow)
-        {
-            hitCombo = 0;
-            hitTimer = 0;
-            comboTxt.text = "";
-        }
-
-        bool leftKeyPressed = Input.GetKeyDown(KeyCode.LeftArrow);
-        bool rightKeyPressed = Input.GetKeyDown(KeyCode.RightArrow);
-
-        if (leftKeyPressed || rightKeyPressed)
-        {
-            if (leftKeyPressed)
-            {
-                leftArmAnim.SetBool("isMoving", true);
-
-                if (lastStatePressed == State.RIGHT)
-                {
-                    lastStatePressed = State.LEFT_RIGHT;
-                }
-                else
-                {
-                    lastStatePressed = State.LEFT;
-                }
-            }
-
-            if (rightKeyPressed)
-            {
-                rightArmAnim.SetBool("isMoving", true);
-
-                if (lastStatePressed == State.LEFT)
-                {
-                    lastStatePressed = State.LEFT_RIGHT;
-                }
-                else
-                {
-                    lastStatePressed = State.RIGHT;
-                }
-            }
+          lastStatePressed = State.LEFT_RIGHT;
         }
         else
         {
-            rightArmAnim.SetBool("isMoving", false);
-            leftArmAnim.SetBool("isMoving", false);
+          lastStatePressed = State.LEFT;
         }
-    }
+      }
 
-    private IEnumerator StartCoaching()
-    {
-        yield return new WaitForSeconds(1f);
+      if (rightKeyPressed)
+      {
+        rightArmAnim.SetBool("isMoving", true);
 
-        while (countdown > 0)
+        if (lastStatePressed == State.LEFT)
         {
-            UpdateBroCoachText(broCoachOptions[broRandomOrder]);
-
-            yield return new WaitForSeconds(10f);
-
-            GenerateNextBroOrder();
+          lastStatePressed = State.LEFT_RIGHT;
         }
-
-        Debug.Log("Minigame Finish!");
-    }
-
-    private void SetBroOrder(int broOption)
-    {
-        switch (broOption)
+        else
         {
-            case 0:
-                currentBroOrder = State.LEFT;
-                break;
-            case 1:
-                currentBroOrder = State.LEFT_RIGHT;
-                break;
-            case 2:
-                currentBroOrder = State.RIGHT;
-                break;
-            default:
-                break;
+          lastStatePressed = State.RIGHT;
         }
+      }
     }
-
-    private void GenerateNextBroOrder()
+    else
     {
-        int lastCoachOption = broRandomOrder;
-        do
-        {
-            broRandomOrder = Random.Range(0, broCoachOptions.Length);
-        } while (lastCoachOption == broRandomOrder);
-
-        SetBroOrder(broRandomOrder);
+      rightArmAnim.SetBool("isMoving", false);
+      leftArmAnim.SetBool("isMoving", false);
     }
+  }
 
-    public void OnHitBoxe()
+  private IEnumerator StartCoaching()
+  {
+    yield return new WaitForSeconds(1f);
+
+    while (countdown > 0)
     {
-        if (currentBroOrder == lastStatePressed && hitTimer < hitWindow)
-        {
-            hitCombo++;
-            hitTimer = 0;
-            comboTxt.text = hitCombo + "x";
-            Debug.Log(hitCombo);
+      UpdateBroCoachText(broCoachOptions[broRandomOrder]);
 
-            if (hitCombo > highestHitCombo)
-            {
-                highestHitCombo = hitCombo;
-            }
-        }
+      yield return new WaitForSeconds(10f);
+
+      GenerateNextBroOrder();
     }
 
-    private void UpdateBroCoachText(string text)
+    Debug.Log("Minigame Finish!");
+    GameController.Instance.UpdateMinigameScore(Constants.PunchActivity, highestHitCombo);
+    GameController.Instance.NextActivity();
+  }
+
+  private void SetBroOrder(int broOption)
+  {
+    switch (broOption)
     {
-        broCoachTxt.gameObject.SetActive(true);
-        broCoachTxt.text = text;
+      case 0:
+        currentBroOrder = State.LEFT;
+        break;
+      case 1:
+        currentBroOrder = State.LEFT_RIGHT;
+        break;
+      case 2:
+        currentBroOrder = State.RIGHT;
+        break;
+      default:
+        break;
     }
+  }
 
-    private enum State
+  private void GenerateNextBroOrder()
+  {
+    int lastCoachOption = broRandomOrder;
+    do
     {
-        LEFT, RIGHT, LEFT_RIGHT
+      broRandomOrder = Random.Range(0, broCoachOptions.Length);
+    } while (lastCoachOption == broRandomOrder);
+
+    SetBroOrder(broRandomOrder);
+  }
+
+  public void OnHitBoxe()
+  {
+    if (currentBroOrder == lastStatePressed && hitTimer < hitWindow)
+    {
+      hitCombo++;
+      hitTimer = 0;
+      comboTxt.text = hitCombo + "x";
+      Debug.Log(hitCombo);
+
+      if (hitCombo > highestHitCombo)
+      {
+        highestHitCombo = hitCombo;
+      }
     }
+  }
+
+  private void UpdateBroCoachText(string text)
+  {
+    broCoachTxt.gameObject.SetActive(true);
+    broCoachTxt.text = text;
+  }
+
+  private enum State
+  {
+    LEFT, RIGHT, LEFT_RIGHT
+  }
 }

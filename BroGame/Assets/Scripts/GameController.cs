@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 public class GameController : Singleton<GameController>
 {
+  public const bool DEBUG = true;
   public const int MAX_DAYS = 7;
 
   public const int MAX_PLAYER_LEVELS = 4;
@@ -36,12 +38,19 @@ public class GameController : Singleton<GameController>
 
   public OrderedDictionary attributes = new OrderedDictionary();
 
-  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 100);
+  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 210);
 
   public Dictionary<string, PlayerAttrReward[]> rewards = new Dictionary<string, PlayerAttrReward[]>();
 
+  private Stack<string> currentActivities = new Stack<string>();
+  private List<string> schedule;
+
+  public bool awake = false;
+
   private void Awake()
   {
+    base.Awake();
+
     Debug.Log("GC Started");
 
     foreach (var attr in attrs)
@@ -60,11 +69,25 @@ public class GameController : Singleton<GameController>
     rewards[Constants.PunchActivity] = new PlayerAttrReward[] {
       new PlayerAttrReward(Constants.ManlinessAttribute, +10),
     };
+
+    awake = true;
   }
 
-  public void ExecuteSchedule(List<string> activities)
+  public void NextActivity()
   {
-    foreach (string activity in activities)
+    var activity = currentActivities.Pop();
+    Debug.Log($"NEXT ACTIVITY {activity}");
+
+    if (activity == Constants.HomeActivity)
+    {
+      OnDayEnd();
+    }
+    LoadScene(Constants.ActivityToScene[activity]);
+  }
+
+  public void OnDayEnd()
+  {
+    foreach (string activity in schedule)
     {
       var bonusList = rewards[activity];
       foreach (var bonus in bonusList)
@@ -107,8 +130,6 @@ public class GameController : Singleton<GameController>
 
     currentDay += 1;
 
-    brometer.value += 10;
-
     if (brometer.percentValue < .1)
     {
       brometerLvl = 0;
@@ -131,8 +152,46 @@ public class GameController : Singleton<GameController>
     }
   }
 
+  public void ExecuteSchedule(List<string> activities)
+  {
+    schedule = activities;
+
+    currentActivities.Push(Constants.HomeActivity);
+    foreach (var activity in activities.Select(a => a).Reverse())
+    {
+      currentActivities.Push(activity);
+    }
+    Debug.Log(currentActivities.Count);
+
+    NextActivity();
+  }
+
   public List<PlayerAttribute> GetVisibleAttributes()
   {
     return attributes.Values.Cast<PlayerAttribute>().ToList();
+  }
+
+  public void UpdateMinigameScore(string activity, int score)
+  {
+    if (activity == Constants.EatActivity)
+    {
+      // 5 levels * 8 pancakes = 40 max points
+      brometer.value += (int)(score * 10f / 40f);
+    }
+    else if (activity == Constants.PoseActivity)
+    {
+      // 2 + 4 + 5 + 6 + 8 = 25 max points
+      brometer.value += (int)(score * 10f / 25f);
+    }
+    else if (activity == Constants.PunchActivity)
+    {
+      // 30 ?
+      brometer.value += (int)(score * 10f / 30f);
+    }
+  }
+
+  public void LoadScene(string sceneName)
+  {
+    SceneManager.LoadScene(sceneName);
   }
 }

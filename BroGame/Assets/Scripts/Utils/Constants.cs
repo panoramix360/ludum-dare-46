@@ -1,19 +1,24 @@
+using System.Collections.Generic;
 static class Constants
 {
   #region Activities
-  public const string HandshakeActivity = "handshake";
+  public const string HomeActivity = "home";
   public const string EatActivity = "eat";
-  public const string RunActivity = "run";
   public const string PoseActivity = "pose";
   public const string PunchActivity = "punch";
   #endregion
 
   #region Attributes
   public const string CashAttribute = "cash";
-  public const string NutritionAttribute = "nutrition";
   public const string WillpowerAttribute = "willpower";
   public const string ManlinessAttribute = "manliness";
-  public const string FanbaseAttribute = "fanbase";
   public const string BrometerAttribute = "brometer";
   #endregion
+
+  public static readonly Dictionary<string, string> ActivityToScene = new Dictionary<string, string> {
+    { HomeActivity, "Bedroom" },
+    { EatActivity, "MiniGameEat" },
+    { PoseActivity, "MiniGamePose" },
+    { PunchActivity, "MiniGameBoxe" },
+  };
 }

@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Bedroom.unity
+    guid: 78810c75181177afb8856f82a6cdface
+  - enabled: 1
     path: Assets/Scenes/MiniGamePose.unity
     guid: cd42bcbd9e9fcfd409ee99573a7da5b9
+  - enabled: 1
+    path: Assets/Scenes/MiniGameBoxe.unity
+    guid: 2c745ca75706e5c4b8f77bdd9c67a10d
+  - enabled: 1
+    path: Assets/Scenes/MiniGameEat.unity
+    guid: 1858f21ebb1bce447b5dd6d165153981
   m_configObjects: {}

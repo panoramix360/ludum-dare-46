@@ -32,6 +32,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   private void Awake()
   {
+    Debug.Log($"awake {GC.awake}");
     // setup slots
     for (int i = 0; i < GameController.MAX_SLOTS; i++)
     {
@@ -66,8 +67,19 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       statBar.transform.SetParent(statsPanel.transform, false);
     }
 
+    // update stat bars
     UpdateAttrs();
+
+    // enable/disable buttons
     UpdateActionBtns();
+
+    // evolve char if needed
+    UpdateCharImg();
+
+    calendarTxt.text = weekdays[(GC.currentDay - 1) % 7];
+    UpdateSlots();
+
+    UpdateBrometer();
   }
 
   private void UpdateSlots()
@@ -150,6 +162,11 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   public void UpdateCharImg()
   {
+    if (GC.currentPlayerLevel == 0)
+    {
+      // workaround
+      return;
+    }
     Sprite playerSrcImg = Resources.Load<Sprite>($"{GameController.character}_0{GC.currentPlayerLevel}");
     playerImg.sprite = playerSrcImg;
   }
@@ -174,15 +191,6 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
     GC.ExecuteSchedule(slots);
 
-    // evolve char if needed
-    UpdateCharImg();
-
-    calendarTxt.text = weekdays[(GC.currentDay - 1) % 7];
-    slots.Clear();
-    UpdateSlots();
-
-    UpdateAttrs();
-    UpdateBrometer();
   }
 
   public void OnClickPlanningAction(string actionName)
