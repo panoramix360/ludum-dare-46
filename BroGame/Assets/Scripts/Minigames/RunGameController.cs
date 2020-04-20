@@ -19,6 +19,9 @@ public class RunGameController : MonoBehaviour
 
   [SerializeField] private GameObject posePlayer;
 
+  [SerializeField] private AudioSource poseSuccess;
+  [SerializeField] private AudioSource poseFailure;
+
   [Header("Contest details")]
   [SerializeField] private List<Contest> contests;
 
@@ -94,8 +97,20 @@ public class RunGameController : MonoBehaviour
 
         directionsPressedCount++;
 
-        if (CheckIfKeyPressedIsWrong() || CheckIfContestEnded())
+        bool wrongPressed = CheckIfKeyPressedIsWrong();
+        bool contestEnded = CheckIfContestEnded();
+
+        if (wrongPressed || contestEnded)
         {
+          if (wrongPressed)
+          {
+              poseFailure.Play();
+          }
+          else if (contestEnded)
+          {
+              poseSuccess.Play();
+          }
+
           NextContest();
         }
       }
