@@ -157,7 +157,7 @@ MonoBehaviour:
   levelTxt: {fileID: 1529116062}
   pancakeInitial: 10
   pancakeMultiplier: 1.2
-  levels: 5
+  levels: 3
   pancakeToSpawn: 0
   player: {fileID: 2115659123}
   score: 0

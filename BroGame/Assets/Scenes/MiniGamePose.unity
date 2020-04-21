@@ -1367,8 +1367,6 @@ MonoBehaviour:
     difficulty: 5
   - level: 4
     difficulty: 6
-  - level: 5
-    difficulty: 8
   currentContest: 0
   runningContestDirections: 
   directionsPressedCount: 0

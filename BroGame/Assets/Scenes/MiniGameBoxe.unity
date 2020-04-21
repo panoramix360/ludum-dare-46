@@ -2118,12 +2118,12 @@ MonoBehaviour:
   leftArmAnim: {fileID: 61019260}
   leftKeyAnimator: {fileID: 0}
   rightKeyAnimator: {fileID: 0}
+  startLimitToChangeOption: 10
+  endLimitToChangeOption: 30
   grunt1: {fileID: 1710362716}
   grunt2: {fileID: 1710362715}
   grunt3: {fileID: 1710362714}
-  startLimitToChangeOption: 10
-  endLimitToChangeOption: 30
-  countdown: 60
+  countdown: 30
   highestHitCombo: 0
   hitCombo: 0
   lastStatePressed: 0

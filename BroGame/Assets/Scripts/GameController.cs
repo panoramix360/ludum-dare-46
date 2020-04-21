@@ -131,7 +131,7 @@ public class GameController : Singleton<GameController>
       available_slots = 5;
     }
 
-    currentDay += 6;
+    currentDay += 1;
 
     if (brometer.percentValue < .1)
     {
@@ -188,18 +188,18 @@ public class GameController : Singleton<GameController>
   {
     if (activity == Constants.EatActivity)
     {
-      // 5 levels * 8 pancakes = 40 max points
-      brometer.value += (int)(score * 10f / 40f);
+      // 3 levels * 8 pancakes = 24 max points
+      brometer.value += (int)(score * 10f / 24f);
     }
     else if (activity == Constants.PoseActivity)
     {
-      // 2 + 4 + 5 + 6 + 8 = 25 max points
-      brometer.value += (int)(score * 10f / 25f);
+      // 2 + 4 + 5 + 6 = 17 max points
+      brometer.value += (int)(score * 10f / 17f);
     }
     else if (activity == Constants.PunchActivity)
     {
-      // 30 ?
-      brometer.value += (int)(score * 10f / 30f);
+      // 20 ?
+      brometer.value += (int)(score * 10f / 20f);
     }
   }
 
