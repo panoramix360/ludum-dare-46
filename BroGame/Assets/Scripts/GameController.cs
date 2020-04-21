@@ -80,12 +80,15 @@ public class GameController : Singleton<GameController>
 
     if (activity == Constants.HomeActivity)
     {
-      OnDayEnd();
+      if (OnDayEnd())
+      {
+        return;
+      }
     }
     LoadScene(Constants.ActivityToScene[activity]);
   }
 
-  public void OnDayEnd()
+  public bool OnDayEnd()
   {
     foreach (string activity in schedule)
     {
@@ -128,7 +131,7 @@ public class GameController : Singleton<GameController>
       available_slots = 5;
     }
 
-    currentDay += 1;
+    currentDay += 6;
 
     if (brometer.percentValue < .1)
     {
@@ -150,6 +153,16 @@ public class GameController : Singleton<GameController>
     {
       brometerLvl = 4;
     }
+
+    // end the game
+    Debug.Log($"current day: {currentDay}");
+    if (currentDay >= MAX_DAYS)
+    {
+      LoadScene("GameEnd");
+      return true;
+    }
+
+    return false;
   }
 
   public void ExecuteSchedule(List<string> activities)

@@ -89,7 +89,7 @@ public class BoxeGameController : MonoBehaviour
 
     if (GameController.DEBUG && Input.GetKeyDown(KeyCode.D))
     {
-      countdown = 3;
+      countdown = 0;
     }
 
     if (leftKeyPressed || rightKeyPressed)
