@@ -28,7 +28,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   private GameController GC { get { return GameController.Instance; } }
 
-  private string[] weekdays = { "mon", "tue", "wed", "thu", "fri", "sat", "sun" };
+  private string[] weekdays = { "7 days", "6 days", "5 days", "4 days", "3 days", "2 days", "1 day" };
 
   private void Awake()
   {
