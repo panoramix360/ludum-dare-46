@@ -108,7 +108,7 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       var attr = attributes[i];
       var img = statBars[i].GetComponentsInChildren<Image>()[1];
       img.fillAmount = attr.percentValue;
-      statBars[i].GetComponentInChildren<Text>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
+      statBars[i].GetComponentInChildren<TextMeshProUGUI>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
     }
   }
 
