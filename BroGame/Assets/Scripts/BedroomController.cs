@@ -122,6 +122,16 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
     Debug.Log("-------");
 
+
+    if (slots.Count() == GC.available_slots)
+    {
+      foreach (var btn in btns)
+      {
+        btn.interactable = false;
+      }
+      return;
+    }
+
     // apply rewards to simulation
     for (int i = 0; i < slots.Count; i++)
     {
