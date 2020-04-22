@@ -32,13 +32,13 @@ public class GameController : Singleton<GameController>
   public PlayerAttribute[] attrs =
   {
       new PlayerAttribute(Constants.CashAttribute, value_: 10, maxValue_: 70, color_: new Color32(41, 154, 10, 255), iconName_: "money_icon 1"),
-      new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 70, color_: new Color32(254, 102, 0, 255), iconName_: "strength_icon 1"),
+      new PlayerAttribute(Constants.ManlinessAttribute, maxValue_: 100, color_: new Color32(254, 102, 0, 255), iconName_: "strength_icon 1"),
       new PlayerAttribute(Constants.WillpowerAttribute, maxValue_: 70, color_: new Color32(31, 226, 255, 255), iconName_: "willpower_icon 1"),
     };
 
   public OrderedDictionary attributes = new OrderedDictionary();
 
-  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 210);
+  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: MAX_DAYS * 15);
 
   public Dictionary<string, PlayerAttrReward[]> rewards = new Dictionary<string, PlayerAttrReward[]>();
 
@@ -67,7 +67,7 @@ public class GameController : Singleton<GameController>
       new PlayerAttrReward(Constants.ManlinessAttribute, -5),
     };
     rewards[Constants.PunchActivity] = new PlayerAttrReward[] {
-      new PlayerAttrReward(Constants.ManlinessAttribute, +10),
+      new PlayerAttrReward(Constants.ManlinessAttribute, +20),
     };
 
     awake = true;
@@ -100,11 +100,11 @@ public class GameController : Singleton<GameController>
     }
 
     var manlinessAttr = attributes[Constants.ManlinessAttribute] as PlayerAttribute;
-    if (manlinessAttr.percentValue < .5)
+    if (manlinessAttr.percentValue < .2)
     {
       currentPlayerLevel = 1;
     }
-    else if (manlinessAttr.percentValue < .7)
+    else if (manlinessAttr.percentValue < .35)
     {
       currentPlayerLevel = 2;
     }
@@ -186,6 +186,8 @@ public class GameController : Singleton<GameController>
 
   public void UpdateMinigameScore(string activity, int score)
   {
+    // per day max avg: 30
+
     if (activity == Constants.EatActivity)
     {
       // 3 levels * 8 pancakes = 24 max points
@@ -198,8 +200,8 @@ public class GameController : Singleton<GameController>
     }
     else if (activity == Constants.PunchActivity)
     {
-      // 20 ?
-      brometer.value += (int)(score * 10f / 20f);
+      // 15 ?
+      brometer.value += (int)(score * 10f / 15f);
     }
   }
 
