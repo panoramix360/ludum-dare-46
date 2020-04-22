@@ -37,7 +37,7 @@ Try to remember the sequence and follow your Bro instructions to get the pose ri
 Hit the punching bag with the left and right fists controlled by the arrow keys. Follow your Bro instructions to score hit combos to fill your brometer.
 
 ## Ludum Dare 46 Link
-![Bro Loving: Keep the Bromance Alive](https://ldjam.com/events/ludum-dare/46/bro-loving-keep-the-bromance-alive)
+[Bro Loving: Keep the Bromance Alive](https://ldjam.com/events/ludum-dare/46/bro-loving-keep-the-bromance-alive)
 
 ## Team
 
