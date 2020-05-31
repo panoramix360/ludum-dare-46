@@ -16,11 +16,11 @@ public class GameController : Singleton<GameController>
 
   public const int MAX_PLAYER_LEVELS = 4;
 
-  public int available_slots = 3;
+  public int available_slots = 1;
 
   public int brometerLvl = 0;
 
-  public const int MAX_SLOTS = 5;
+  public const int MAX_SLOTS = 1;
 
   public int currentDay = 1;
 
@@ -115,20 +115,6 @@ public class GameController : Singleton<GameController>
     else
     {
       currentPlayerLevel = 4;
-    }
-
-    var willpowerAttr = attributes[Constants.WillpowerAttribute] as PlayerAttribute;
-    if (willpowerAttr.percentValue < .3)
-    {
-      available_slots = 3;
-    }
-    else if (willpowerAttr.percentValue < .6)
-    {
-      available_slots = 4;
-    }
-    else
-    {
-      available_slots = 5;
     }
 
     currentDay += 1;

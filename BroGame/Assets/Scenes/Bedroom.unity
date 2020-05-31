@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d1291d8eba810f5a278689842f50f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  available_slots: 3
+  available_slots: 1
   brometerLvl: 0
   currentDay: 1
   currentPlayerLevel: 0
