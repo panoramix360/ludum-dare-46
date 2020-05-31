@@ -28,8 +28,6 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   private GameController GC { get { return GameController.Instance; } }
 
-  private string[] weekdays = { "7 days", "6 days", "5 days", "4 days", "3 days", "2 days", "1 day" };
-
   private void Awake()
   {
     Debug.Log($"awake {GC.awake}");
@@ -76,7 +74,8 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     // evolve char if needed
     UpdateCharImg();
 
-    calendarTxt.text = weekdays[(GC.currentDay - 1) % 7];
+    var daysLeft = GameController.MAX_DAYS - (GC.currentDay - 1);
+    calendarTxt.text = $"{GC.currentDay} / {daysLeft}";
     UpdateSlots();
 
     UpdateBrometer();

@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class GameController : Singleton<GameController>
 {
   public const bool DEBUG = false;
-  public const int MAX_DAYS = 7;
+  public const int MAX_DAYS = 10;
 
   public const int MAX_PLAYER_LEVELS = 4;
 
