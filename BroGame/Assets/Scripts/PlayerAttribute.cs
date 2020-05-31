@@ -11,6 +11,15 @@ public class PlayerAttribute
 
   public string iconName { get; set; }
 
+  public void Increment(int amount = 1)
+  {
+    this.value = this.value + amount;
+    if (this.value > this.maxValue)
+    {
+      this.value = this.maxValue;
+    }
+  }
+
   public PlayerAttribute(string name_, int maxValue_, string iconName_ = null, Color32 color_ = default, int value_ = 0)
   {
     name = name_;

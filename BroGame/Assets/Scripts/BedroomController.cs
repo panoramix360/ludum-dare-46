@@ -45,29 +45,6 @@ public class BedroomController : SingletonDestroyable<BedroomController>
       slotBtn.gameObject.SetActive(i < GC.available_slots);
     }
 
-    // setup stats
-    var attributes = GC.GetVisibleAttributes();
-    for (int i = 0; i < attributes.Count; i++)
-    {
-      var attr = attributes[i];
-      var statBar = Instantiate(statsPrefab);
-
-      var statBarImgs = statBar.GetComponentsInChildren<Image>();
-
-      if (attr.iconName != null)
-      {
-        statBarImgs[0].sprite = Resources.Load<Sprite>(attr.iconName);
-      }
-
-      statBarImgs[1].color = attr.color;
-      statBars.Add(statBar);
-
-      statBar.transform.SetParent(statsPanel.transform, false);
-    }
-
-    // update stat bars
-    UpdateAttrs();
-
     // enable/disable buttons
     UpdateActionBtns();
 
@@ -99,74 +76,15 @@ public class BedroomController : SingletonDestroyable<BedroomController>
     }
   }
 
-  private void UpdateAttrs()
-  {
-    List<PlayerAttribute> attributes = GC.GetVisibleAttributes();
-    for (int i = 0; i < attributes.Count; i++)
-    {
-      var attr = attributes[i];
-      var img = statBars[i].GetComponentsInChildren<Image>()[1];
-      img.fillAmount = attr.percentValue;
-      statBars[i].GetComponentInChildren<TextMeshProUGUI>().text = (attr.value < 10 ? "0" : "") + attr.value.ToString();
-    }
-  }
-
   private void UpdateActionBtns()
   {
     Button[] btns = { eatBtn, poseBtn, punchBtn };
-    PlayerAttrReward[][] rewards = { GC.rewards[Constants.EatActivity], GC.rewards[Constants.PoseActivity],
-                    GC.rewards[Constants.PunchActivity] };
-    var attrs = GC.attributes;
-    var simAttrs = GC.attrs.ToDictionary(attr => attr.name, attr => attr.value);
-
-    Debug.Log("-------");
-
-
-    if (slots.Count() == GC.available_slots)
+    bool enabled = slots.Count() < GC.available_slots;
+    foreach (var btn in btns)
     {
-      foreach (var btn in btns)
-      {
-        btn.interactable = false;
-      }
-      return;
+      btn.interactable = enabled;
     }
-
-    // apply rewards to simulation
-    for (int i = 0; i < slots.Count; i++)
-    {
-      string slotName = slots[i];
-      var pars = GC.rewards[slotName];
-      foreach (var par in pars)
-      {
-        simAttrs[par.attr] += par.reward;
-        Debug.Log($"0 {par.attr} {simAttrs[par.attr]}");
-      }
-    }
-
-    for (int i = 0; i < btns.Count(); i++)
-    {
-      // for each button, check if applying its next reward would mean disabling it
-      Debug.Log($"i = {i}");
-      foreach (var par in rewards[i])
-      {
-        simAttrs[par.attr] += par.reward;
-        Debug.Log($"1 {par.attr} {simAttrs[par.attr]}");
-      }
-
-      btns[i].interactable = true;
-      foreach (var simAttr in simAttrs.Values)
-      {
-        if (simAttr < 0)
-        {
-          btns[i].interactable = false;
-        }
-      }
-
-      foreach (var par in rewards[i])
-      {
-        simAttrs[par.attr] -= par.reward;
-      }
-    }
+    return;
   }
 
   public void UpdateCharImg()
