@@ -46,7 +46,7 @@ public class BoxeGameController : MonoBehaviour
     Random.InitState(System.DateTime.Now.Millisecond);
   }
 
-  private void Start()
+  public void BeginMinigame()
   {
     broRandomOrder = Random.Range(0, broCoachOptions.Length);
 

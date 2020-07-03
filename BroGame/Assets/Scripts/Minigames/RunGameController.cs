@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// sorry programming gods
 public class RunGameController : MonoBehaviour
 {
   [Header("UI")]
@@ -50,7 +51,7 @@ public class RunGameController : MonoBehaviour
     runningContestDirections = new List<DirectionEnum>();
   }
 
-  private void Start()
+  public void BeginMinigame()
   {
     StartCoroutine(GeneratePoseContest());
   }
@@ -119,8 +120,6 @@ public class RunGameController : MonoBehaviour
 
   private IEnumerator GeneratePoseContest()
   {
-    yield return new WaitForSeconds(3f);
-
     RemoveAllChildren(broCoachDirectionsContainer);
     RemoveAllChildren(playerCommandsContainer);
 

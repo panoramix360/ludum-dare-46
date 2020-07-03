@@ -33,7 +33,7 @@ public class PancakeSpawner : MonoBehaviour
     audioSource = GetComponent<AudioSource>();
   }
 
-  private void Start()
+  public void BeginMinigame()
   {
     pancakeToSpawn = pancakeInitial;
 
