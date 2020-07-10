@@ -18,9 +18,10 @@ public class PancakeSpawner : MonoBehaviour
 
   [SerializeField] private GameObject player;
 
+  [SerializeField] private Text pancakeScore;
   [SerializeField] private int score;
 
-  [SerializeField] private AudioSource audioSource;
+  private AudioSource audioSource;
 
   private Camera cam;
 
@@ -97,6 +98,7 @@ public class PancakeSpawner : MonoBehaviour
     int pancakesCount = pancakeGroup.gameObject.transform.childCount;
 
     score += pancakesCount;
+    pancakeScore.text = "Score: " + score;
 
     Debug.Log(pancakesCount);
 
