@@ -31,19 +31,26 @@ public class BoxeGameController : MonoBehaviour
   [SerializeField] private State lastStatePressed;
   [SerializeField] private float hitTimer;
   [SerializeField] private float hitWindow = 1f;
-
   [SerializeField] private int broRandomOrder;
   [SerializeField] private State currentBroOrder;
-
+  [SerializeField] private SpriteRenderer boxBrosImg;
+  [SerializeField] private SpriteRenderer leftArmImg;
+  [SerializeField] private SpriteRenderer rightArmImg;
+  private GameController GC { get { return GameController.Instance; } }
   private string[] broCoachOptions =  {
-        "LEFT BRO!",
-        "LEFT AND RIGHT BRO!",
-        "RIGHT BRO!"
-    };
+      "LEFT BRO!",
+      "LEFT AND RIGHT BRO!",
+      "RIGHT BRO!"
+  };
 
   private void Awake()
   {
     Random.InitState(System.DateTime.Now.Millisecond);
+
+    var idx = GC.currentPlayerLevel - 1;
+    boxBrosImg.sprite = Resources.Load<Sprite>($"box_bros_{idx}");
+    leftArmImg.sprite = Resources.Load<Sprite>($"braco_esq_{idx}");
+    rightArmImg.sprite = Resources.Load<Sprite>($"braco_dir_{idx}");
   }
 
   public void BeginMinigame()
@@ -70,17 +77,17 @@ public class BoxeGameController : MonoBehaviour
       comboTxt.text = "";
 
       int randomNum = Random.Range(0, 3);
-      switch(randomNum)
+      switch (randomNum)
       {
-          case 0:
-              grunt1.Play();
-              break;
-          case 1:
-              grunt2.Play();
-              break;
-          case 2:
-              grunt3.Play();
-              break;
+        case 0:
+          grunt1.Play();
+          break;
+        case 1:
+          grunt2.Play();
+          break;
+        case 2:
+          grunt3.Play();
+          break;
       }
     }
 
