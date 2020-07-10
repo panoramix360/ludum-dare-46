@@ -177,12 +177,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5099eda3e17268945b0309901c43963c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce1314a0083d50392aa94932d481a522, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.69, y: 3.29}
+  m_Size: {x: 11.725, y: 8.225}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -277,12 +277,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 983a386948e3676478265eeaae1d9c05, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b6bf1be6fd6d2a6a8a0f2c2389c74ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.03, y: 1.68}
+  m_Size: {x: 2.575, y: 4.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1373,12 +1373,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 6fbbe16051cefb446bf022aba8e8a535, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 36d1b68475dc9df479694f2e0ac2f8bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.69, y: 1.84}
+  m_Size: {x: 1.725, y: 4.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2134,6 +2134,9 @@ MonoBehaviour:
   hitWindow: 1
   broRandomOrder: 0
   currentBroOrder: 0
+  boxBrosImg: {fileID: 4110779}
+  leftArmImg: {fileID: 61019259}
+  rightArmImg: {fileID: 720552141}
 --- !u!4 &1710362713
 Transform:
   m_ObjectHideFlags: 0
@@ -3003,6 +3006,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Level Changer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7735767003060892996, guid: 51e692f10ef210b4aabb3a4d6e8dfdd0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7735767003060892998, guid: 51e692f10ef210b4aabb3a4d6e8dfdd0,
         type: 3}
