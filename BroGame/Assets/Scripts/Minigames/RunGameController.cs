@@ -36,6 +36,8 @@ public class RunGameController : MonoBehaviour
 
   [SerializeField] private bool isContestRunning = false;
 
+  private GameController GC { get { return GameController.Instance; } }
+
   private DirectionEnum[] possibleDirections =
   {
         DirectionEnum.LEFT,
@@ -47,8 +49,8 @@ public class RunGameController : MonoBehaviour
   private void Awake()
   {
     Random.InitState(System.DateTime.Now.Millisecond);
-
     runningContestDirections = new List<DirectionEnum>();
+    LoadPlayerSprite(1);
   }
 
   public void BeginMinigame()
@@ -105,11 +107,11 @@ public class RunGameController : MonoBehaviour
         {
           if (wrongPressed)
           {
-              poseFailure.Play();
+            poseFailure.Play();
           }
           else if (contestEnded)
           {
-              poseSuccess.Play();
+            poseSuccess.Play();
           }
 
           NextContest();
@@ -191,6 +193,11 @@ public class RunGameController : MonoBehaviour
     return lastDirectionPressed != runningContestDirections[directionsPressedCount - 1];
   }
 
+  private void LoadPlayerSprite(int pose)
+  {
+    posePlayer.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"posing_{pose}_lvl_{GC.currentPlayerLevel - 1}");
+  }
+
   private bool CheckIfContestEnded()
   {
     Debug.Log("Contest ended!");
@@ -198,8 +205,7 @@ public class RunGameController : MonoBehaviour
     if (contestEnded)
     {
       int randomPose = Random.Range(1, 7);
-      posePlayer.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>($"pose_0{randomPose}");
-
+      LoadPlayerSprite(randomPose);
       score += directionsPressedCount;
     }
     return contestEnded;
