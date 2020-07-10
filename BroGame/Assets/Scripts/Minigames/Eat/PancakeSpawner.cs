@@ -25,12 +25,13 @@ public class PancakeSpawner : MonoBehaviour
 
   private Camera cam;
 
+  private GameController GC { get { return GameController.Instance; } }
+
   private void Awake()
   {
+    LoadPlayerSprite($"eating_pose_0_lvl_{GC.currentPlayerLevel - 1}");
     cam = Camera.main;
-
     levelTxtAnimator = levelTxt.GetComponent<Animator>();
-
     audioSource = GetComponent<AudioSource>();
   }
 
@@ -70,7 +71,7 @@ public class PancakeSpawner : MonoBehaviour
 
       yield return new WaitForSeconds(3f);
 
-      player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("player");
+      LoadPlayerSprite($"eating_pose_0_lvl_{GC.currentPlayerLevel - 1}");
       player.GetComponent<BoxCollider2D>().enabled = true;
 
       if (currentLevel == levels) break;
@@ -88,11 +89,16 @@ public class PancakeSpawner : MonoBehaviour
     GameController.Instance.NextActivity();
   }
 
+  private void LoadPlayerSprite(string name)
+  {
+    player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(name);
+  }
+
   private void Eat()
   {
     audioSource.Play();
-    
-    player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("player_eating");
+
+    LoadPlayerSprite($"eating_pose_1_lvl_{GC.currentPlayerLevel - 1}");
     player.GetComponent<BoxCollider2D>().enabled = false;
 
     int pancakesCount = pancakeGroup.gameObject.transform.childCount;
