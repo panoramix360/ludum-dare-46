@@ -25,15 +25,15 @@ public class GameController : Singleton<GameController>
   public int currentDay = 1;
 
   // player transformation level
-  public int currentPlayerLevel = 1;
+  private int _currPlayerLvl = 1;
+
+  public int currentPlayerLevel { get { return _currPlayerLvl; } }
 
   public const string character = "apollo";
 
   public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 0);
 
   private Stack<string> currentActivities = new Stack<string>();
-
-  private List<string> schedule;
 
   private Dictionary<string, ActivityTracker> trackers = new Dictionary<string, ActivityTracker>
   {
@@ -54,13 +54,10 @@ public class GameController : Singleton<GameController>
     new Quest(Constants.PoseActivity, "score at least 3 poses", (tracker) => tracker.lastScore >= 3),
   };
 
-  public bool awake = false;
-
   private void Awake()
   {
     base.Awake();
     Debug.Log("GC Started");
-    awake = true;
     brometer.maxValue = quests.Count();
   }
 
@@ -83,19 +80,19 @@ public class GameController : Singleton<GameController>
   {
     if (brometer.percentValue < .2)
     {
-      currentPlayerLevel = 1;
+      _currPlayerLvl = 1;
     }
     else if (brometer.percentValue < .35)
     {
-      currentPlayerLevel = 2;
+      _currPlayerLvl = 2;
     }
     else if (brometer.value < brometer.maxValue)
     {
-      currentPlayerLevel = 3;
+      _currPlayerLvl = 3;
     }
     else
     {
-      currentPlayerLevel = 4;
+      _currPlayerLvl = 4;
     }
 
     currentDay += 1;
@@ -113,8 +110,6 @@ public class GameController : Singleton<GameController>
 
   public void ExecuteSchedule(List<string> activities)
   {
-    schedule = activities;
-
     currentActivities.Push(Constants.HomeActivity);
     foreach (var activity in activities.Select(a => a).Reverse())
     {

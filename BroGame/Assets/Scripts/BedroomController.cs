@@ -30,7 +30,6 @@ public class BedroomController : SingletonDestroyable<BedroomController>
 
   private void Awake()
   {
-    Debug.Log($"awake {GC.awake}");
     // setup slots
     for (int i = 0; i < GameController.MAX_SLOTS; i++)
     {
