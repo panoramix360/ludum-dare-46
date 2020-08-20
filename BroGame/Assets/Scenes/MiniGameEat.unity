@@ -196,9 +196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41aee380683d1e34c81d2f7728dcf746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pancakePrefab: {fileID: 1892681399027898732, guid: dc56cf922e4591043b65752b9da7e94c,
+  pancakePrefab: {fileID: 1892681399027898732, guid: c8cf1c6f99bd6c7439e6bd0fd0905912,
     type: 3}
   superPancakePrefab: {fileID: 1892681399027898732, guid: 4aebc2c0e9c395b41aea0c61fd5e8b0a,
+    type: 3}
+  rottenPancakePrefab: {fileID: 1892681399027898732, guid: dc56cf922e4591043b65752b9da7e94c,
     type: 3}
   pancakeGroup: {fileID: 2147064327}
   levelTxt: {fileID: 1529116062}

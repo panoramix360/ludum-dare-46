@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class PancakeSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject pancakePrefab;
     [SerializeField] private GameObject superPancakePrefab;
+    [SerializeField] private GameObject rottenPancakePrefab;
     [SerializeField] private GameObject pancakeGroup;
     [SerializeField] private Text levelTxt;
     private Animator levelTxtAnimator;
@@ -60,10 +62,7 @@ public class PancakeSpawner : MonoBehaviour
             for (int i = 0; i < pancakeToSpawn; i++)
             {
                 float randomX = Random.Range(cam.ScreenToWorldPoint(new Vector2(0, 0)).x, cam.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
-
                 Vector2 randomPosition = new Vector2(randomX, cam.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
-
-                float random = Random.Range(0f, 1f);
 
                 if (indexToSpawnSuperPancake == i)
                 {
@@ -71,7 +70,15 @@ public class PancakeSpawner : MonoBehaviour
                 }
                 else
                 {
-                    Instantiate(pancakePrefab, randomPosition, Quaternion.identity, pancakeGroup.transform);
+                    bool hasToSpawnRotten = Random.Range(0f, 1f) >= 0.8f;
+                    if (hasToSpawnRotten)
+                    {
+                        Instantiate(rottenPancakePrefab, randomPosition, Quaternion.identity, pancakeGroup.transform);
+                    }
+                    else
+                    {
+                        Instantiate(pancakePrefab, randomPosition, Quaternion.identity, pancakeGroup.transform);
+                    }
                 }
 
                 yield return new WaitForSeconds(.5f);
@@ -113,19 +120,28 @@ public class PancakeSpawner : MonoBehaviour
         LoadPlayerSprite($"eating_pose_1_lvl_{GC.currentPlayerLevel - 1}");
         player.GetComponent<BoxCollider2D>().enabled = false;
 
-        int pancakesCount = pancakeGroup.gameObject.transform.childCount;
-
-        score += pancakesCount;
-        pancakeScore.text = "Score: " + score;
-
-        Debug.Log(pancakesCount);
-
         foreach (Transform children in pancakeGroup.gameObject.transform)
         {
             int randomX = Random.Range(-150, 150);
             children.gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("pancake_eated");
             children.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomX, 60f), ForceMode2D.Impulse);
+
+            Pancake pancake = children.GetComponent<Pancake>();
+            switch(pancake.GetPancakeType())
+            {
+                case PancakeType.DEFAULT:
+                    score += 1;
+                    break;
+                case PancakeType.SUPER:
+                    score += 3;
+                    break;
+                case PancakeType.ROTTEN:
+                    score -= 1;
+                    break;
+            }
         }
+
+        pancakeScore.text = "Score: " + score;
     }
 
     private IEnumerator SpawnSuperPancake(Vector2 randomPosition)
