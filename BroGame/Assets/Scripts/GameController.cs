@@ -11,38 +11,38 @@ using UnityEngine.SceneManagement;
 
 public class GameController : Singleton<GameController>
 {
-  public const bool DEBUG = false;
-  public const int MAX_DAYS = 10;
+    public const bool DEBUG = false;
+    public const int MAX_DAYS = 10;
 
-  public const int MAX_PLAYER_LEVELS = 4;
+    public const int MAX_PLAYER_LEVELS = 4;
 
-  public int available_slots = 1;
+    public int available_slots = 1;
 
-  public int brometerLvl = 0;
+    public int brometerLvl = 0;
 
-  public const int MAX_SLOTS = 1;
+    public const int MAX_SLOTS = 1;
 
-  public int currentDay = 1;
+    public int currentDay = 1;
 
-  // player transformation level
-  private int _currPlayerLvl = 1;
+    // player transformation level
+    private int _currPlayerLvl = 1;
 
-  public int currentPlayerLevel { get { return _currPlayerLvl; } }
+    public int currentPlayerLevel { get { return _currPlayerLvl; } }
 
-  public const string character = "apollo";
+    public const string character = "apollo";
 
-  public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 0);
+    public PlayerAttribute brometer = new PlayerAttribute(Constants.BrometerAttribute, maxValue_: 0);
 
-  private Stack<string> currentActivities = new Stack<string>();
+    private Stack<string> currentActivities = new Stack<string>();
 
-  private Dictionary<string, ActivityTracker> trackers = new Dictionary<string, ActivityTracker>
+    private Dictionary<string, ActivityTracker> trackers = new Dictionary<string, ActivityTracker>
   {
     { Constants.EatActivity, new ActivityTracker() },
     { Constants.PoseActivity, new ActivityTracker() },
     { Constants.PunchActivity, new ActivityTracker() },
   };
 
-  private List<Quest> quests = new List<Quest>
+    private List<Quest> quests = new List<Quest>
   {
     new Quest(Constants.EatActivity, "eat at least 10 pancakes in a game", (tracker) => tracker.lastScore >= 10),
     new Quest(Constants.EatActivity, "eat at least 30 pancakes in total", (tracker) => tracker.runningScore >= 30),
@@ -54,100 +54,113 @@ public class GameController : Singleton<GameController>
     new Quest(Constants.PoseActivity, "score at least 3 poses", (tracker) => tracker.lastScore >= 3),
   };
 
-  private void Awake()
-  {
-    base.Awake();
-    Debug.Log("GC Started");
-    brometer.maxValue = quests.Count();
-  }
-
-  public void NextActivity()
-  {
-    var activity = currentActivities.Pop();
-    Debug.Log($"NEXT ACTIVITY {activity}");
-
-    if (activity == Constants.HomeActivity)
+    private void Awake()
     {
-      if (OnDayEnd())
-      {
-        return;
-      }
-    }
-    LoadScene(Constants.ActivityToScene[activity]);
-  }
-
-  public bool OnDayEnd()
-  {
-    if (brometer.percentValue < .2)
-    {
-      _currPlayerLvl = 1;
-    }
-    else if (brometer.percentValue < .35)
-    {
-      _currPlayerLvl = 2;
-    }
-    else if (brometer.value < brometer.maxValue)
-    {
-      _currPlayerLvl = 3;
-    }
-    else
-    {
-      _currPlayerLvl = 4;
+        base.Awake();
+        Debug.Log("GC Started");
+        brometer.maxValue = quests.Count();
     }
 
-    currentDay += 1;
-
-    // end the game
-    Debug.Log($"current day: {currentDay}");
-    if (currentDay >= MAX_DAYS)
+    public void NextActivity()
     {
-      LoadScene("GameEnd");
-      return true;
+        var activity = currentActivities.Pop();
+        Debug.Log($"NEXT ACTIVITY {activity}");
+
+        if (activity == Constants.HomeActivity)
+        {
+            if (OnDayEnd())
+            {
+                return;
+            }
+        }
+        LoadScene(Constants.ActivityToScene[activity]);
     }
 
-    return false;
-  }
-
-  public void ExecuteSchedule(List<string> activities)
-  {
-    currentActivities.Push(Constants.HomeActivity);
-    foreach (var activity in activities.Select(a => a).Reverse())
+    public bool OnDayEnd()
     {
-      currentActivities.Push(activity);
+        if (brometer.percentValue < .2)
+        {
+            _currPlayerLvl = 1;
+        }
+        else if (brometer.percentValue < .35)
+        {
+            _currPlayerLvl = 2;
+        }
+        else if (brometer.value < brometer.maxValue)
+        {
+            _currPlayerLvl = 3;
+        }
+        else
+        {
+            _currPlayerLvl = 4;
+        }
+
+        currentDay += 1;
+
+        // end the game
+        Debug.Log($"current day: {currentDay}");
+        if (currentDay >= MAX_DAYS)
+        {
+            if (brometer.percentValue < .2)
+            {
+                LoadScene("GameEndFailBadly");
+            }
+            else if (brometer.percentValue >= .21)
+            {
+                LoadScene("GameEndFail");
+            }
+            return true;
+        }
+
+        if (brometer.percentValue >= 1)
+        {
+            LoadScene("GameEnd");
+            return true;
+        }
+
+        return false;
     }
-    Debug.Log(currentActivities.Count);
 
-    NextActivity();
-  }
-
-  public void UpdateMinigameScore(string activity, int score)
-  {
-    var tracker = this.trackers[activity];
-    tracker.lastScore = score;
-    tracker.bestScore = Math.Max(tracker.bestScore, score);
-    tracker.runningScore += score;
-    tracker.timesPlayed += 1;
-    tracker.currentDay = this.currentDay;
-
-    // get quests that were not done yet for this activity
-    var pendingQuests = quests.Where(q => !q.done && q.activity == activity).ToList();
-
-    // check completed quests and update the brometer
-    foreach (var quest in pendingQuests)
+    public void ExecuteSchedule(List<string> activities)
     {
-      bool completed = quest.completionFunc(tracker);
-      if (completed)
-      {
-        Debug.Log($"Finsihed quest \"{quest.label}\"");
-        quest.done = true;
-        this.brometer.Increment();
-      }
+        currentActivities.Push(Constants.HomeActivity);
+        foreach (var activity in activities.Select(a => a).Reverse())
+        {
+            currentActivities.Push(activity);
+        }
+        Debug.Log(currentActivities.Count);
+
+        NextActivity();
     }
 
-  }
+    public void UpdateMinigameScore(string activity, int score)
+    {
+        var tracker = this.trackers[activity];
+        tracker.lastScore = score;
+        tracker.bestScore = Math.Max(tracker.bestScore, score);
+        tracker.runningScore += score;
+        tracker.timesPlayed += 1;
+        tracker.currentDay = this.currentDay;
 
-  public void LoadScene(string sceneName)
-  {
-    SceneManager.LoadScene(sceneName);
-  }
+        // get quests that were not done yet for this activity
+        var pendingQuests = quests.Where(q => !q.done && q.activity == activity).ToList();
+
+        // check completed quests and update the brometer
+        foreach (var quest in pendingQuests)
+        {
+            bool completed = quest.completionFunc(tracker);
+            if (completed)
+            {
+                Debug.Log($"Finsihed quest \"{quest.label}\"");
+                quest.done = true;
+                this.brometer.Increment();
+            }
+        }
+
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 }

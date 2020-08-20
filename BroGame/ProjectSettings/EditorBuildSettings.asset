@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameEnd.unity
     guid: 726b00f164992df7ebfdd19336fcc93e
+  - enabled: 1
+    path: Assets/Scenes/GameEndFail.unity
+    guid: 7679371dbace4fb43b9ed0d7185a17b8
+  - enabled: 1
+    path: Assets/Scenes/GameEndFailBadly.unity
+    guid: 85e267a22c2730f46ac8293a6675a7c3
   m_configObjects: {}
