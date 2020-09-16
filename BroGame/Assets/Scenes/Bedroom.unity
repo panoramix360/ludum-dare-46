@@ -153,8 +153,6 @@ MonoBehaviour:
   available_slots: 1
   brometerLvl: 0
   currentDay: 1
-  currentPlayerLevel: 0
-  awake: 0
 --- !u!4 &20376995
 Transform:
   m_ObjectHideFlags: 0
@@ -1129,6 +1127,8 @@ GameObject:
   - component: {fileID: 907331315}
   - component: {fileID: 907331314}
   - component: {fileID: 907331313}
+  - component: {fileID: 907331316}
+  - component: {fileID: 907331317}
   m_Layer: 5
   m_Name: GoBtn
   m_TagString: Untagged
@@ -1246,6 +1246,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907331311}
   m_CullTransparentMesh: 0
+--- !u!95 &907331316
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907331311}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 35403c18701d20f41ae399f5f8b2115a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &907331317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907331311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6485c81afd4146b9ae40e181a9c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &962076584
 GameObject:
   m_ObjectHideFlags: 0
