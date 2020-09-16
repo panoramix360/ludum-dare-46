@@ -237,6 +237,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Changer
       objectReference: {fileID: 0}
+    - target: {fileID: 7735767003060892996, guid: 51e692f10ef210b4aabb3a4d6e8dfdd0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7735767003060892998, guid: 51e692f10ef210b4aabb3a4d6e8dfdd0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -571,7 +576,7 @@ SpriteRenderer:
   m_Size: {x: 2.65, y: 5.7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &518318486
@@ -1462,7 +1467,9 @@ MonoBehaviour:
     type: 3}
   directionLargePrefab: {fileID: 8161638933248317963, guid: c76ca025ef4f55a499c75e353a11f6b7,
     type: 3}
+  randomPose: 0
   posePlayer: {fileID: 518318484}
+  poseTrainer: {fileID: 1286270199}
   poseSuccess: {fileID: 1710362715}
   poseFailure: {fileID: 1710362714}
   contests:
